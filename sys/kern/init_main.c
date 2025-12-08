@@ -88,6 +88,10 @@
 #include <security/audit/audit.h>
 #include <security/mac/mac_framework.h>
 
+#ifdef SIGRISCV
+#include <sys/sigriscv_key.h>
+#endif
+
 #include <vm/vm.h>
 #include <vm/vm_param.h>
 #include <vm/vm_extern.h>
@@ -602,6 +606,11 @@ proc0_init(void *dummy __unused)
 	racct_create(&p->p_racct);
 
 	p->p_stats = pstats_alloc();
+
+#ifdef SIGRISCV
+	/* Initialize skey for proc0 */
+	construct_update_skey(p->p_skey_secret_buffer);
+#endif
 
 	/* Allocate a prototype map so we have something to fork. */
 	p->p_vmspace = &vmspace0;

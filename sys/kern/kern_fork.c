@@ -75,6 +75,10 @@
 #include <security/audit/audit.h>
 #include <security/mac/mac_framework.h>
 
+#ifdef SIGRISCV
+#include <sys/sigriscv_key.h>
+#endif
+
 #include <vm/vm.h>
 #include <vm/pmap.h>
 #include <vm/vm_map.h>
@@ -472,6 +476,11 @@ do_fork(struct thread *td, struct fork_req *fr, struct proc *p2, struct thread *
 #ifdef VIMAGE
 	td2->td_vnet = NULL;
 	td2->td_vnet_lpush = NULL;
+#endif
+
+#ifdef SIGRISCV
+	/* Re-encrypt parent's skey for child process */
+	reencrypt_skey(td->td_proc->p_skey_secret_buffer, td2->td_proc->p_skey_secret_buffer);
 #endif
 
 	/*

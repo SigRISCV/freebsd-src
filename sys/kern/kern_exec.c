@@ -99,6 +99,10 @@
 #include <security/audit/audit.h>
 #include <security/mac/mac_framework.h>
 
+#ifdef SIGRISCV
+#include <sys/sigriscv_key.h>
+#endif
+
 #ifdef KDTRACE_HOOKS
 #include <sys/dtrace_bsd.h>
 dtrace_execexit_func_t	dtrace_fasttrap_exec;
@@ -421,6 +425,11 @@ do_execve(struct thread *td, struct image_args *args, struct mac *mac_p,
 	const Elf_Brandinfo *orig_brandinfo;
 	size_t freepath_size;
 	static const char fexecv_proc_title[] = "(fexecv)";
+
+#ifdef SIGRISCV
+	/* Generate new skey for the process on exec */
+	construct_update_skey(p->p_skey_secret_buffer);
+#endif
 
 	imgp = &image_params;
 	oldtextvp = oldtextdvp = NULL;
