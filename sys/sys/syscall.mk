@@ -441,4 +441,5 @@ MIASM =  \
 	setgroups.o \
 	jail_attach_jd.o \
 	jail_remove_jd.o \
-	kexec_load.o
+	kexec_load.o \
+	sigriscv_debug_info.o

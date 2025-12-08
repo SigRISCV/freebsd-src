@@ -605,4 +605,5 @@ const char *syscallnames[] = {
 	"jail_attach_jd",			/* 597 = jail_attach_jd */
 	"jail_remove_jd",			/* 598 = jail_remove_jd */
 	"kexec_load",			/* 599 = kexec_load */
+	"sigriscv_debug_info",			/* 600 = sigriscv_debug_info */
 };

@@ -3524,6 +3524,13 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 		*n_args = 4;
 		break;
 	}
+	/* sigriscv_debug_info */
+	case 600: {
+		struct sigriscv_debug_info_args *p = params;
+		uarg[a++] = (intptr_t)p->info; /* void * */
+		*n_args = 1;
+		break;
+	}
 	default:
 		*n_args = 0;
 		break;
@@ -9430,6 +9437,16 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 			break;
 		};
 		break;
+	/* sigriscv_debug_info */
+	case 600:
+		switch (ndx) {
+		case 0:
+			p = "userland void *";
+			break;
+		default:
+			break;
+		};
+		break;
 	default:
 		break;
 	};
@@ -11440,6 +11457,11 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 		break;
 	/* kexec_load */
 	case 599:
+		if (ndx == 0 || ndx == 1)
+			p = "int";
+		break;
+	/* sigriscv_debug_info */
+	case 600:
 		if (ndx == 0 || ndx == 1)
 			p = "int";
 		break;

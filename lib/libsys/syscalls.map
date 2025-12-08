@@ -819,4 +819,6 @@ FBSDprivate_1.0 {
 	__sys_jail_remove_jd;
 	_kexec_load;
 	__sys_kexec_load;
+	_sigriscv_debug_info;
+	__sys_sigriscv_debug_info;
 };

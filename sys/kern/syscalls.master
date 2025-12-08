@@ -3402,4 +3402,9 @@
 			u_long flags
 		);
 	}
+600	AUE_NULL	STD {
+		int sigriscv_debug_info(
+			_Out_ void *info
+		);
+	}
 ; vim: syntax=off

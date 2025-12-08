@@ -472,6 +472,7 @@ typedef int (__sys_setgroups_t)(int, const gid_t *);
 typedef int (__sys_jail_attach_jd_t)(int);
 typedef int (__sys_jail_remove_jd_t)(int);
 typedef int (__sys_kexec_load_t)(uint64_t, u_long, struct kexec_segment *, u_long);
+typedef int (__sys_sigriscv_debug_info_t)(void *);
 
 _Noreturn void __sys__exit(int rval);
 int __sys_fork(void);
@@ -879,6 +880,7 @@ int __sys_setgroups(int gidsetsize, const gid_t * gidset);
 int __sys_jail_attach_jd(int fd);
 int __sys_jail_remove_jd(int fd);
 int __sys_kexec_load(uint64_t entry, u_long nseg, struct kexec_segment * segments, u_long flags);
+int __sys_sigriscv_debug_info(void * info);
 __END_DECLS
 
 #endif /* __LIBSYS_H_ */
