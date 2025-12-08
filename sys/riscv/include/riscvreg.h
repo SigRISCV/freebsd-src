@@ -283,4 +283,27 @@
 #define	csr_read64(csr)		((uint64_t)csr_read(csr))
 #endif
 
+#ifdef SIGRISCV
+/* SigRISCV ls/ss instruction macros */
+/* ls rd, imm(rs1) - Load with decryption */
+#define ls(rd, imm, rs1) \
+	__asm__ __volatile__("ls %0, %1(%2)" \
+			     : "=r"(rd) \
+			     : "i"(imm), "r"(rs1) \
+			     : "memory")
+
+/* ss rs2, imm(rs1) - Store with encryption */
+#define ss(rs2, imm, rs1) \
+	__asm__ __volatile__("ss %0, %1(%2)" \
+			     : \
+			     : "r"(rs2), "i"(imm), "r"(rs1) \
+			     : "memory")
+
+/* CSR definitions for SigRISCV */
+#define CSR_MKEYL		0x7f0
+#define CSR_MKEYH		0x7f1
+#define CSR_SKEYL		0x5f0
+#define CSR_SKEYH		0x5f1
+#endif /* SIGRISCV */
+
 #endif /* !_MACHINE_RISCVREG_H_ */
