@@ -212,6 +212,8 @@ ENTRY(cpu_throw)
 #ifdef SIGRISCV
 	mv	a0, s0
 	call	_C_LABEL(key_activate_sw)
+	mv	a0, s0
+	call	_C_LABEL(id_activate_sw)
 #endif
 	mv	a0, s0
 
@@ -313,11 +315,22 @@ ENTRY(cpu_switch)
 	mv	s0, a0
 	mv	s1, a1
 	mv	s2, a2
-	mv	a0, a1
+
+#ifdef SIGRISCV
+	/* Save old thread's ID state (CSR -> PCB) */
+	mv	a0, s0
+	call	_C_LABEL(id_save_sw)
+#endif
+
+	/* Activate the new thread's pmap */
+	mv	a0, s1
 	call	_C_LABEL(pmap_activate_sw)
 #ifdef SIGRISCV
+	/* Activate new thread's key and ID state (PCB -> CSR) */
 	mv	a0, s1
 	call	_C_LABEL(key_activate_sw)
+	mv	a0, s1
+	call	_C_LABEL(id_activate_sw)
 #endif
 	mv	a1, s1
 

@@ -101,6 +101,7 @@
 
 #ifdef SIGRISCV
 #include <sys/sigriscv_key.h>
+#include <sys/sigriscv_id.h>
 #endif
 
 #ifdef KDTRACE_HOOKS
@@ -429,6 +430,10 @@ do_execve(struct thread *td, struct image_args *args, struct mac *mac_p,
 #ifdef SIGRISCV
 	/* Generate new skey for the process on exec */
 	construct_update_skey(p->p_skey_secret_buffer);
+	/* Clear all GPR IDs and PC ID on exec (new program starts fresh) */
+	clear_gpr_ids(p);
+	/* Activate IDs to sync with hardware CSRs */
+	id_activate_sw(td);
 #endif
 
 	imgp = &image_params;

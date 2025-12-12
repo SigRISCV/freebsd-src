@@ -77,6 +77,7 @@
 
 #ifdef SIGRISCV
 #include <sys/sigriscv_key.h>
+#include <sys/sigriscv_id.h>
 #endif
 
 #include <vm/vm.h>
@@ -481,6 +482,10 @@ do_fork(struct thread *td, struct fork_req *fr, struct proc *p2, struct thread *
 #ifdef SIGRISCV
 	/* Re-encrypt parent's skey for child process */
 	reencrypt_skey(td->td_proc->p_skey_secret_buffer, td2->td_proc->p_skey_secret_buffer);
+	/* Copy parent's GPR IDs and PC ID to child */
+	id_save_sw(td);
+	copy_gpr_ids(td->td_proc, td2->td_proc);
+	id_activate_sw(td2);
 #endif
 
 	/*

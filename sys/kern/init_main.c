@@ -90,6 +90,7 @@
 
 #ifdef SIGRISCV
 #include <sys/sigriscv_key.h>
+#include <sys/sigriscv_id.h>
 #endif
 
 #include <vm/vm.h>
@@ -610,6 +611,10 @@ proc0_init(void *dummy __unused)
 #ifdef SIGRISCV
 	/* Initialize skey for proc0 */
 	construct_update_skey(p->p_skey_secret_buffer);
+	/* Initialize all GPR IDs and PC ID to 0 for proc0 */
+	init_gpr_ids(p);
+	/* Activate IDs to sync with hardware CSRs */
+	id_activate_sw(td);
 #endif
 
 	/* Allocate a prototype map so we have something to fork. */
