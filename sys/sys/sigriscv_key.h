@@ -12,7 +12,12 @@ struct sigriscv_debug_info {
 	uint64_t skeyl;
 	uint64_t skeyh;
 	uint64_t encrypted_buffer[2];
-	uint64_t gpr_id[32];  /* GPR shadow IDs (x0-x31), CSR 0x5d0-0x5ef */
+	uint64_t gpr_id[32];       /* GPR shadow IDs from PCB (user-space state) */
+	uint64_t pc_id;            /* PC shadow ID from PCB */
+	uint64_t idcsr;            /* ID Counter Register from PCB */
+	uint64_t gpr_id_csr[32];   /* GPR shadow IDs from CSR (kernel-space state) */
+	uint64_t pc_id_csr;        /* PC shadow ID from CSR */
+	uint64_t idcsr_csr;        /* ID Counter Register from CSR */
 };
 
 #ifdef SIGRISCV
