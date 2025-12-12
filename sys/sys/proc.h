@@ -693,6 +693,9 @@ struct proc {
 #define	p_startzero	p_vmspace
 #ifdef SIGRISCV
 	uint64_t	p_skey_secret_buffer[2]; /* (c) Secret buffer for skey (keyl, keyh) */
+	uint32_t	p_gpr_id[32];	/* (c) Shadow IDs for general purpose registers (x0-x31) */
+	uint32_t	p_pc_id;	/* (c) Shadow ID for program counter */
+	uint32_t	p_idcsr;	/* (c) ID Counter Register (unique ID allocator) */
 #endif
 	struct vmspace	*p_vmspace;	/* (b) Address space. */
 	u_int		p_swtick;	/* (c) Tick when swapped in or out. */
