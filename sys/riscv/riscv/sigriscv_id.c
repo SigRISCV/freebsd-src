@@ -7,9 +7,12 @@
 
 #ifdef SIGRISCV
 
-#define CSR_GPRID_BASE	0x5d0
-#define CSR_PCID	0x5f2
-#define CSR_IDCSR	0x5f3
+#define CSR_GPRID_BASE		0x5d0
+#define CSR_PCID			0x5f2
+#define CSR_IDCSR			0x5f3
+#define CSR_ENCMAP          0x5f4
+#define CSR_EXITRAW         0x5f5
+#define CSR_HASHSIG         0x5f6
 
 // ID mask (24-bit ID)
 #define SIGCSR_ID_MASK	0xFFFFFFUL
@@ -17,8 +20,11 @@
 void init_gpr_ids(struct proc *p)
 {
 	for (int i = 0; i < 32; i++) p->p_gpr_id[i] = 0;
-	p->p_pc_id = 0;
-	p->p_idcsr = 1;
+	p->p_pc_id = 1;
+	p->p_idcsr = 0x40000002;
+	p->p_encmap = 0;
+	p->p_exitraw = 0;
+	p->p_hashsig = 0;
 }
 
 void copy_gpr_ids(struct proc *from, struct proc *to)
@@ -26,13 +32,19 @@ void copy_gpr_ids(struct proc *from, struct proc *to)
 	for (int i = 0; i < 32; i++) to->p_gpr_id[i] = from->p_gpr_id[i];
 	to->p_pc_id = from->p_pc_id;
 	to->p_idcsr = from->p_idcsr;
+	to->p_encmap = from->p_encmap;
+	to->p_exitraw = from->p_exitraw;
+	to->p_hashsig = from->p_hashsig;
 }
 
 void clear_gpr_ids(struct proc *p)
 {
 	for (int i = 0; i < 32; i++) p->p_gpr_id[i] = 0;
-	p->p_pc_id = 0;
-	p->p_idcsr = 1;
+	p->p_pc_id = 1;
+	p->p_idcsr = 0x40000002;
+	p->p_encmap = 0;
+	p->p_exitraw = 0;
+	p->p_hashsig = 0;
 }
 
 void id_activate_sw(struct thread *td)
@@ -60,6 +72,19 @@ void id_activate_sw(struct thread *td)
 	__asm__ __volatile__("csrw %0, %1" 
 			     :: "i"(CSR_IDCSR), "r"((uint64_t)p->p_idcsr) 
 			     : "memory");
+
+	__asm__ __volatile__("csrw %0, %1" 
+			     :: "i"(CSR_ENCMAP), "r"((uint64_t)p->p_encmap) 
+			     : "memory");
+
+	__asm__ __volatile__("csrw %0, %1" 
+			     :: "i"(CSR_EXITRAW), "r"((uint64_t)p->p_exitraw) 
+			     : "memory");
+
+	__asm__ __volatile__("csrw %0, %1" 
+			     :: "i"(CSR_HASHSIG), "r"((uint64_t)p->p_hashsig) 
+			     : "memory");
+	
 	
 	__asm__ __volatile__("fence.i" ::: "memory");
 }
@@ -67,12 +92,12 @@ void id_activate_sw(struct thread *td)
 void id_save_sw(struct thread *td)
 {
 	struct proc *p = td->td_proc;
-	uint64_t id_value;
+	uint64_t csr_value;
 	
 	#define READ_GPRID(n) \
 		do { \
-			__asm__ __volatile__("csrr %0, %1" : "=r"(id_value) : "i"(CSR_GPRID_BASE + n) : "memory"); \
-			p->p_gpr_id[n] = (uint32_t)id_value; \
+			__asm__ __volatile__("csrr %0, %1" : "=r"(csr_value) : "i"(CSR_GPRID_BASE + n) : "memory"); \
+			p->p_gpr_id[n] = (uint32_t)csr_value; \
 		} while (0)
 	
 	READ_GPRID(0);  READ_GPRID(1);  READ_GPRID(2);  READ_GPRID(3);
@@ -87,16 +112,34 @@ void id_save_sw(struct thread *td)
 	#undef READ_GPRID
 	
 	__asm__ __volatile__("csrr %0, %1" 
-			     : "=r"(id_value) 
+			     : "=r"(csr_value) 
 			     : "i"(CSR_PCID) 
 			     : "memory");
-	p->p_pc_id = (uint32_t)id_value;
+	p->p_pc_id = (uint32_t)csr_value;
 	
 	__asm__ __volatile__("csrr %0, %1" 
-			     : "=r"(id_value) 
+			     : "=r"(csr_value) 
 			     : "i"(CSR_IDCSR) 
 			     : "memory");
-	p->p_idcsr = (uint32_t)id_value;
+	p->p_idcsr = (uint32_t)csr_value;
+
+	__asm__ __volatile__("csrr %0, %1" 
+			     : "=r"(csr_value) 
+			     : "i"(CSR_ENCMAP) 
+			     : "memory");
+	p->p_encmap = (uint64_t)csr_value;
+
+	__asm__ __volatile__("csrr %0, %1" 
+			     : "=r"(csr_value) 
+			     : "i"(CSR_EXITRAW) 
+			     : "memory");
+	p->p_exitraw = (uint64_t)csr_value;
+
+	__asm__ __volatile__("csrr %0, %1" 
+			     : "=r"(csr_value) 
+			     : "i"(CSR_HASHSIG) 
+			     : "memory");
+	p->p_hashsig = (uint64_t)csr_value;
 }
 
 void id_save_sw_current(void)
