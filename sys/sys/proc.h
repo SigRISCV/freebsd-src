@@ -696,6 +696,9 @@ struct proc {
 	uint32_t	p_gpr_id[32];	/* (c) Shadow IDs for general purpose registers (x0-x31) */
 	uint32_t	p_pc_id;	/* (c) Shadow ID for program counter */
 	uint32_t	p_idcsr;	/* (c) ID Counter Register (unique ID allocator) */
+	uint64_t	p_encmap;	/* (c) Encryption Map */
+	uint64_t	p_exitraw;	/* (c) Exit Raw */
+	uint64_t	p_hashsig;	/* (c) Hash Signature */
 #endif
 	struct vmspace	*p_vmspace;	/* (b) Address space. */
 	u_int		p_swtick;	/* (c) Tick when swapped in or out. */
