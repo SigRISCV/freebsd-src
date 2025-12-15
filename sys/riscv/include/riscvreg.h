@@ -299,11 +299,114 @@
 			     : "r"(rs2), "i"(imm), "r"(rs1) \
 			     : "memory")
 
+/* ==================== xsig meta inst ==================== */
+
+// setrawid: void* (void*)
+#define xsig_setrawid(val) \
+    __builtin_riscv_xsig_setrawid((void*)(val))
+
+// setnewid: void* (void*)
+#define xsig_setnewid(val) \
+    __builtin_riscv_xsig_setnewid((void*)(val))
+
+// moveid: void* (void*, void*)
+#define xsig_moveid(dest, src) \
+	((src) - (uint64_t)(src) + (uint64_t)(dest))
+/* ==================== xsig load/store ==================== */
+
+// load_sig: void* (void*)
+#define xsig_load_sig(addr) \
+    __builtin_riscv_xsig_load_sig((void*)(addr))
+
+// store_sig: void (void*, void*)
+#define xsig_store_sig(addr, val) \
+    __builtin_riscv_xsig_store_sig((void*)(addr), (void*)(val))
+
+// load_dyn: void* (void*)
+#define xsig_load_dyn(addr) \
+    __builtin_riscv_xsig_load_dyn((void*)(addr))
+
+// store_dyn: void (void*, void*)
+#define xsig_store_dyn(addr, val) \
+    __builtin_riscv_xsig_store_dyn((void*)(addr), (void*)(val))
+
+/* ==================== xsig debug inst ==================== */
+
+// debug_sig: void ()
+#define xsig_debug_sig() \
+    __builtin_riscv_xsig_debug_sig()
+
+// debug_chr: void (uint64_t)
+#define xsig_debug_chr(val) \
+    __builtin_riscv_xsig_debug_chr((uint64_t)(val))
+
+// debug_int: void (uint64_t)
+#define xsig_debug_int(val) \
+    __builtin_riscv_xsig_debug_int((uint64_t)(val))
+
+// debug_hex: void (uint64_t)
+#define xsig_debug_hex(val) \
+    __builtin_riscv_xsig_debug_ptr((uint64_t)xsig_setrawid((val)))
+
+// debug_ptr: void (void*)
+#define xsig_debug_ptr(ptr) \
+    __builtin_riscv_xsig_debug_ptr((void*)(ptr))
+
+// debug_csr: void (uint64_t)
+#define xsig_debug_csr(val) \
+    __builtin_riscv_xsig_debug_csr((uint64_t)(val))
+
+// debug_str: void (const char*)
+#define xsig_debug_str(str) \
+	{										\
+		const char* p = (const char*)(str);	\
+		while (*p) {						\
+			xsig_debug_chr(*p++);			\
+		}									\
+	}
+
 /* CSR definitions for SigRISCV */
 #define CSR_MKEYL		0x7f0
 #define CSR_MKEYH		0x7f1
 #define CSR_SKEYL		0x5f0
 #define CSR_SKEYH		0x5f1
+#define CSR_GPRID0		0x5d0
+#define CSR_GPRID1		0x5d1
+#define CSR_GPRID2		0x5d2
+#define CSR_GPRID3		0x5d3
+#define CSR_GPRID4		0x5d4
+#define CSR_GPRID5		0x5d5
+#define CSR_GPRID6		0x5d6
+#define CSR_GPRID7		0x5d7
+#define CSR_GPRID8		0x5d8
+#define CSR_GPRID9		0x5d9
+#define CSR_GPRID10		0x5da
+#define CSR_GPRID11		0x5db
+#define CSR_GPRID12		0x5dc
+#define CSR_GPRID13		0x5dd
+#define CSR_GPRID14		0x5de
+#define CSR_GPRID15		0x5df
+#define CSR_GPRID16		0x5e0
+#define CSR_GPRID17		0x5e1
+#define CSR_GPRID18		0x5e2
+#define CSR_GPRID19		0x5e3
+#define CSR_GPRID20		0x5e4
+#define CSR_GPRID21		0x5e5
+#define CSR_GPRID22		0x5e6
+#define CSR_GPRID23		0x5e7
+#define CSR_GPRID24		0x5e8
+#define CSR_GPRID25		0x5e9
+#define CSR_GPRID26		0x5ea
+#define CSR_GPRID27		0x5eb
+#define CSR_GPRID28		0x5ec
+#define CSR_GPRID29		0x5ed
+#define CSR_GPRID30		0x5ee
+#define CSR_GPRID31		0x5ef
+#define CSR_PCID		0x5f2
+#define CSR_IDCSR		0x5f3
+#define CSR_ENCMAP		0x5f4
+#define CSR_EXITRAW		0x5f5
+#define CSR_HASHSIG	    0x5f6
 #endif /* SIGRISCV */
 
 #endif /* !_MACHINE_RISCVREG_H_ */
