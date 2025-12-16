@@ -311,7 +311,7 @@
 
 // moveid: void* (void*, void*)
 #define xsig_moveid(dest, src) \
-	((src) - (uint64_t)(src) + (uint64_t)(dest))
+	((void*)(src) - (uint64_t)(src) + (uint64_t)(dest))
 /* ==================== xsig load/store ==================== */
 
 // load_sig: void* (void*)
@@ -346,7 +346,7 @@
 
 // debug_hex: void (uint64_t)
 #define xsig_debug_hex(val) \
-    __builtin_riscv_xsig_debug_ptr((uint64_t)xsig_setrawid((val)))
+    __builtin_riscv_xsig_debug_ptr(xsig_setrawid((val)))
 
 // debug_ptr: void (void*)
 #define xsig_debug_ptr(ptr) \
