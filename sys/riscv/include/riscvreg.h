@@ -305,6 +305,10 @@
 #define xsig_setrawid(val) \
     __builtin_riscv_xsig_setrawid((void*)(val))
 
+// setrawid: void* (void*)
+#define xsig_setdummyid(val) \
+    __builtin_riscv_xsig_setdummyid((void*)(val))
+
 // setnewid: void* (void*)
 #define xsig_setnewid(val) \
     __builtin_riscv_xsig_setnewid((void*)(val))
@@ -347,6 +351,20 @@
 // debug_hex: void (uint64_t)
 #define xsig_debug_hex(val) \
     __builtin_riscv_xsig_debug_ptr(xsig_setrawid((val)))
+
+// debug double: void (double)
+
+#define xsig_debug_double(val, precision) \
+	{											\
+		double temp = (val);					\
+		xsig_debug_int((uint64_t)(temp));		\
+		xsig_debug_chr('.');					\
+		temp -= (uint64_t)(temp);				\
+		for (int i = 0; i < precision; i++) {	\
+			temp *= 10;							\
+		}										\
+		xsig_debug_int((uint64_t)(temp));		\
+	}
 
 // debug_ptr: void (void*)
 #define xsig_debug_ptr(ptr) \
