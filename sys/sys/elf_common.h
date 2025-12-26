@@ -531,6 +531,9 @@ typedef struct {
 #define	SHF_MASKOS	0x0ff00000	/* OS-specific semantics. */
 #define	SHF_MASKPROC	0xf0000000	/* Processor-specific semantics. */
 
+/* RISC-V processor-specific section flags. */
+#define	SHF_RISCV_SIG_HEADER	0x10000000	/* SigRISCV header section. */
+
 /* Flags for section groups. */
 #define	GRP_COMDAT	0x1	/* COMDAT semantics. */
 
