@@ -85,4 +85,7 @@ __ElfType(Auxinfo);
     (HWCAP_ISA_I | HWCAP_ISA_M | HWCAP_ISA_A | HWCAP_ISA_F | HWCAP_ISA_D)
 #define	HWCAP_ISA_B		HWCAP_ISA_BIT('b')
 
+/* RISC-V specific program header types */
+#define	PT_RISCV_SIG_HEADER	0x70000004	/* SigRISCV header segment */
+
 #endif /* !_MACHINE_ELF_H_ */

@@ -1020,8 +1020,9 @@ typedef struct {
 #define	AT_CHERI_STATS	37	/* Reserved */
 #define	AT_HWCAP3	38	/* CPU feature flags 3. */
 #define	AT_HWCAP4	39	/* CPU feature flags 4. */
+#define	AT_SIG_HEADER	40	/* SigRISCV header address */
 
-#define	AT_COUNT	40	/* Count of defined aux entry types. */
+#define	AT_COUNT	41	/* Count of defined aux entry types. */
 
 /*
  * Relocation types.
