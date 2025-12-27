@@ -20,8 +20,8 @@
 void init_gpr_ids(struct proc *p)
 {
 	for (int i = 0; i < 32; i++) p->p_gpr_id[i] = 0;
-	p->p_pc_id = 1;
-	p->p_idcsr = 0x40000002;
+	p->p_pc_id = 2;
+	p->p_idcsr = 0x40000003;
 	p->p_encmap = 0;
 	p->p_exitraw = 0;
 	p->p_hashsig = 0;
@@ -40,8 +40,8 @@ void copy_gpr_ids(struct proc *from, struct proc *to)
 void clear_gpr_ids(struct proc *p)
 {
 	for (int i = 0; i < 32; i++) p->p_gpr_id[i] = 0;
-	p->p_pc_id = 1;
-	p->p_idcsr = 0x40000002;
+	p->p_pc_id = 2;
+	p->p_idcsr = 0x40000003;
 	p->p_encmap = 0;
 	p->p_exitraw = 0;
 	p->p_hashsig = 0;
