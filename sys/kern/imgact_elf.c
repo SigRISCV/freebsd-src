@@ -1117,6 +1117,7 @@ __CONCAT(exec_, __elfN(imgact))(struct image_params *imgp)
 	int32_t osrel;
 	bool free_interp;
 	int error, i, n;
+	Elf_Addr sig_header_vaddr;	/* SigRISCV header virtual address */
 
 	hdr = (const Elf_Ehdr *)imgp->image_header;
 
@@ -1153,6 +1154,7 @@ __CONCAT(exec_, __elfN(imgact))(struct image_params *imgp)
 	interp = NULL;
 	free_interp = false;
 	td = curthread;
+	sig_header_vaddr = 0;
 
 	/*
 	 * Somewhat arbitrary, limit accepted max alignment for the
@@ -1230,6 +1232,9 @@ __CONCAT(exec_, __elfN(imgact))(struct image_params *imgp)
 			break;
 		case PT_PHDR: 	/* Program header table info */
 			proghdr = phdr[i].p_vaddr;
+			break;
+		case PT_RISCV_SIG_HEADER:	/* SigRISCV header segment */
+			sig_header_vaddr = phdr[i].p_vaddr;
 			break;
 		}
 	}
@@ -1426,6 +1431,11 @@ __CONCAT(exec_, __elfN(imgact))(struct image_params *imgp)
 	elf_auxargs->flags = 0;
 	elf_auxargs->entry = entry;
 	elf_auxargs->hdr_eflags = hdr->e_flags;
+	/* Only set sig_header_addr if the program has PT_RISCV_SIG_HEADER */
+	if (sig_header_vaddr != 0)
+		elf_auxargs->sig_header_addr = sig_header_vaddr + imgp->et_dyn_addr;
+	else
+		elf_auxargs->sig_header_addr = 0;
 
 	imgp->auxargs = elf_auxargs;
 	imgp->interpreted = 0;
@@ -1520,6 +1530,8 @@ __elfN(freebsd_copyout_auxargs)(struct image_params *imgp, uintptr_t base)
 	AUXARGS_ENTRY(pos, AT_USRSTACKBASE, round_page(vmspace->vm_stacktop));
 	stacksz = imgp->proc->p_limit->pl_rlimit[RLIMIT_STACK].rlim_cur;
 	AUXARGS_ENTRY(pos, AT_USRSTACKLIM, stacksz);
+	if (args->sig_header_addr != 0)
+		AUXARGS_ENTRY(pos, AT_SIG_HEADER, args->sig_header_addr);
 	AUXARGS_ENTRY(pos, AT_NULL, 0);
 
 	free(imgp->auxargs, M_TEMP);
