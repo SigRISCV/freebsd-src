@@ -76,6 +76,6 @@ typedef uint64_t sig_offset_sparse_diff_entry;
 #define SIG_EXTERNAL_ID  0xFFFFFF
 #define SIG_NULL_ID      0
 
-void global_init(__raw sig_header* sig_header_struct, void* __raw* raw_sig_got_pool);
+void global_init(__raw sig_header* sig_header_struct);
 
 #endif /* __SIG_LOADER_H__ */

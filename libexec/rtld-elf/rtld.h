@@ -267,8 +267,12 @@ typedef struct Struct_Obj_Entry {
     bool marker : 1;		/* marker on the global obj list */
     bool unholdfree : 1;	/* unmap upon last unhold */
     bool doomed : 1;		/* Object cannot be referenced */
+    bool sig_mode : 1;		/* Object uses SigRISCV ABI */
 
     MD_OBJ_ENTRY
+
+    /* SigRISCV fields */
+    void *sig_header_addr;	/* Address of .sig_header section */
 
     struct link_map linkmap;	/* For GDB and dlinfo() */
     Objlist dldags;		/* Object belongs to these dlopened DAGs (%) */

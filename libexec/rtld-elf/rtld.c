@@ -67,6 +67,7 @@
 #include "rtld_printf.h"
 #include "rtld_tls.h"
 #include "rtld_utrace.h"
+#include "sig_loader.h"
 
 /* Types. */
 typedef void (*func_ptr_type)(void);
@@ -98,6 +99,7 @@ static bool digest_dynamic2(Obj_Entry *, const Elf_Dyn *, const Elf_Dyn *,
     const Elf_Dyn *);
 static bool digest_dynamic(Obj_Entry *, int);
 static Obj_Entry *digest_phdr(const Elf_Phdr *, int, caddr_t, const char *);
+static void digest_sig_header(Obj_Entry *);
 static void distribute_static_tls(Objlist *);
 static Obj_Entry *dlcheck(void *);
 static int dlclose_locked(void *, RtldLockState *);
@@ -814,6 +816,13 @@ _rtld(Elf_Addr *sp, func_ptr_type *exit_proc, Obj_Entry **objp)
 			rtld_die();
 	}
 
+	// Read SigRISCV header address from auxiliary vector if present
+	if (obj_main != NULL && aux_info[AT_SIG_HEADER] != NULL) {
+		obj_main->sig_header_addr = aux_info[AT_SIG_HEADER]->a_un.a_ptr;
+		obj_main->sig_mode = true;
+		dbg("AT_SIG_HEADER %p", obj_main->sig_header_addr);
+	}
+
 	if (aux_info[AT_EXECPATH] != NULL && fd == -1) {
 		kexecpath = aux_info[AT_EXECPATH]->a_un.a_ptr;
 		dbg("AT_EXECPATH %p %s", kexecpath, kexecpath);
@@ -1047,6 +1056,16 @@ _rtld(Elf_Addr *sp, func_ptr_type *exit_proc, Obj_Entry **objp)
 
 	dbg("transferring control to program entry point = %p",
 	    obj_main->entry);
+
+	// SigRISCV: Initialize global pointers for sig mode programs
+	dbg("SigRISCV: sig_mode=%d, sig_header_addr=%p for %s",
+	    obj_main->sig_mode, obj_main->sig_header_addr, obj_main->path);
+	if (obj_main->sig_mode && obj_main->sig_header_addr != NULL) {
+		void *raw_sig_got_pool = NULL;  // Temporary, freed by global_init
+		dbg("Initializing SigRISCV global pointers");
+		global_init((sig_header *)obj_main->sig_header_addr);
+		dbg("SigRISCV initialization completed");
+	}
 
 	/* Return the exit procedure and the program entry point. */
 	*exit_proc = rtld_exit_ptr;

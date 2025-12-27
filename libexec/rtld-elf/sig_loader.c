@@ -7,7 +7,7 @@
 #include "sig_loader.h"
 #include "sig_debug.h"
 
-static void** init_sig_got_pool(void** __raw raw_sig_got_pool, uint64_t sig_ptr_id_count) {
+static void** init_sig_got_pool(uint64_t sig_ptr_id_count) {
     size_t pool_size, page_num;
 
     // Calculate required pages
@@ -353,7 +353,7 @@ static void init_sig_ptr_sparse_diff(__raw sig_ptr_header_sparse_diff_entry* sig
 
 #define getsection(sig_header, section_name) ((__raw uint8_t *)(sig_header) + (sig_header)->section_name##_offset)
 
-void global_init(__raw sig_header* sig_header_struct, void* __raw* raw_sig_got_pool) {
+void global_init(__raw sig_header* sig_header_struct) {
     __raw sig_got_table_entry* sig_got_section;
     __raw sig_ptr_header_single_entry* sig_ptr_header_single_section;
     __raw sig_ptr_header_contig_same_entry* sig_ptr_header_contig_same_section;
@@ -401,7 +401,7 @@ void global_init(__raw sig_header* sig_header_struct, void* __raw* raw_sig_got_p
     void* __raw * got_section = (void* __raw *)getsection(sig_header_struct, got);
     init_got_array_first_stage(got_section, sig_header_struct->got_count, &got_page_start, &got_page_size);
 
-    void** sig_got_pool = init_sig_got_pool(raw_sig_got_pool, sig_header_struct->sig_ptr_id_count);
+    void** sig_got_pool = init_sig_got_pool(sig_header_struct->sig_ptr_id_count);
     if (sig_got_pool == NULL) return;
 
     sig_got_section = (__raw sig_got_table_entry*)getsection(sig_header_struct, sig_got);
