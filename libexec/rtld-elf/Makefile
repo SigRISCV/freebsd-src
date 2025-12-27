@@ -38,7 +38,8 @@ SRCS= \
 	map_object.c \
 	xmalloc.c \
 	debug.c \
-	libmap.c
+	libmap.c \
+	sig_loader.c
 MAN?=		rtld.1
 ACFLAGS+=	-DLOCORE
 CFLAGS+=	-Wall -DIN_RTLD -ffreestanding
@@ -58,7 +59,7 @@ SYMLINKS=	../..${BINDIR}/${PROG} ${LIBEXECDIR}/${PROG}
 MLINKS?=	rtld.1 ld-elf.so.1.1 \
 		rtld.1 ld.so.1
 
-CFLAGS+=	-fpic -DPIC $(DEBUG)
+CFLAGS+=	-fpic -DPIC $(DEBUG) 
 
 LDFLAGS+=	-shared -Wl,-Bsymbolic -Wl,-z,defs -nostdlib -e ${RTLD_ENTRY}
 # Pull in the dependencies that we use from libc
@@ -132,3 +133,14 @@ CFLAGS+=	-Wno-redundant-decls
 # Add dependencies on libc and libsys archives after bsd.prog.mk
 # includes bsd.libnames.mk so they are defined.
 rtld_libc.a: ${LIBC_NOSSP_PIC} ${LIBSYS_PIC}
+
+# add -DSIGRISCV_DEBUG to activate debug prints in sig_loader.c
+.if ${RTLD_ARCH} == "riscv"
+sig_loader.o: sig_loader.c
+	${CC} ${CFLAGS} -DSIGRISCV -march=rv64imafdc_zifencei_zicsr_xsig0p1 -mabi=lps64d \
+	-menable-experimental-extensions \
+	-Wno-gnu-pointer-arith -Wno-null-pointer-arithmetic \
+	-Wno-unused-parameter -Wno-implicit-function-declaration \
+	-Wno-int-conversion -Wno-int-to-pointer-cast \
+	-c ${.IMPSRC} -o ${.TARGET}
+.endif
