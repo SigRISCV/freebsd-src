@@ -66,7 +66,7 @@ static void free_sig_got_pool(void** sig_got_pool, uint64_t sig_ptr_id_count) {
     munmap(sig_got_pool, page_num * 4096);
 }
 
-static void init_got_array_first_stage(void** __raw raw_got_array, uint64_t got_count, void** got_page_start_out, size_t* got_page_size_out) {
+static void init_got_array_first_stage(void* __raw * raw_got_array, uint64_t got_count, void** got_page_start_out, size_t* got_page_size_out) {
     void** pc;
     size_t got_size, got_page_size;
     void* got_page_start;
@@ -107,7 +107,7 @@ static void init_got_array_first_stage(void** __raw raw_got_array, uint64_t got_
     got_array = 0;
 }
 
-static void init_got_array_dummy(void** __raw raw_got_array, uint64_t got_count, void** sig_got_pool) {
+static void init_got_array_dummy(void* __raw * raw_got_array, uint64_t got_count, void** sig_got_pool) {
     SIG_DEBUG(
         debug_str("begin init_got_array_dummy, counter = ");
         debug_int(0);
@@ -140,8 +140,8 @@ static void init_got_array_dummy(void** __raw raw_got_array, uint64_t got_count,
     got_array = 0;
 }
 
-static void init_got_array(void** __raw raw_got_array, uint64_t got_count,
-                           sig_got_table_entry* __raw sig_got_table,
+static void init_got_array(void* __raw * raw_got_array, uint64_t got_count,
+                           __raw sig_got_table_entry* sig_got_table,
                            uint32_t sig_got_count, void** sig_got_pool) {
     SIG_DEBUG(
         debug_str("begin init_got_array, counter = ");
