@@ -43,29 +43,29 @@ typedef	__size_t	size_t;
 
 __BEGIN_DECLS
 #if __BSD_VISIBLE || __POSIX_VISIBLE <= 200112
-int	 bcmp(const void *, const void *, size_t) __pure;	/* LEGACY */
-void	 (bcopy)(const void *, void *, size_t);			/* LEGACY */
-void	 (bzero)(void *, size_t);				/* LEGACY */
+__raw int	 bcmp(const void *, const void *, size_t) __pure;	/* LEGACY */
+__raw void	 (bcopy)(const void *, void *, size_t);			/* LEGACY */
+__raw void	 (bzero)(void *, size_t);				/* LEGACY */
 #endif
 #if __BSD_VISIBLE
-void	 explicit_bzero(void *, size_t);
+__raw void	 explicit_bzero(void *, size_t);
 #endif
 #if __XSI_VISIBLE
-int	 ffs(int) __pure2;
+__raw int	 ffs(int) __pure2;
 #endif
 #if __BSD_VISIBLE
-int	 ffsl(long) __pure2;
-int	 ffsll(long long) __pure2;
-int	 fls(int) __pure2;
-int	 flsl(long) __pure2;
-int	 flsll(long long) __pure2;
+__raw int	 ffsl(long) __pure2;
+__raw int	 ffsll(long long) __pure2;
+__raw int	 fls(int) __pure2;
+__raw int	 flsl(long) __pure2;
+__raw int	 flsll(long long) __pure2;
 #endif
 #if __BSD_VISIBLE || __POSIX_VISIBLE <= 200112
-char	*index(const char *, int) __pure;			/* LEGACY */
-char	*rindex(const char *, int) __pure;			/* LEGACY */
+char	* __raw index(const char *, int) __pure;			/* LEGACY */
+char	* __raw rindex(const char *, int) __pure;			/* LEGACY */
 #endif
-int	 strcasecmp(const char *, const char *) __pure;
-int	 strncasecmp(const char *, const char *, size_t) __pure;
+__raw int	 strcasecmp(const char *, const char *) __pure;
+__raw int	 strncasecmp(const char *, const char *, size_t) __pure;
 
 #if __POSIX_VISIBLE >= 200809 || defined(_XLOCALE_H_)
 #include <xlocale/_strings.h>

@@ -166,9 +166,9 @@ typedef struct __sFILE FILE;
 #endif
 #ifndef _STDSTREAM_DECLARED
 __BEGIN_DECLS
-extern FILE *__stdinp;
-extern FILE *__stdoutp;
-extern FILE *__stderrp;
+extern FILE * __raw __stdinp;
+extern FILE * __raw __stdoutp;
+extern FILE * __raw __stderrp;
 __END_DECLS
 #define	_STDSTREAM_DECLARED
 #endif
@@ -263,144 +263,144 @@ __BEGIN_DECLS
 /*
  * Functions defined in ANSI C standard.
  */
-void	 clearerr(FILE *);
-int	 fclose(FILE *);
-int	 feof(FILE *);
-int	 ferror(FILE *);
-int	 fflush(FILE *);
-int	 fgetc(FILE *);
-int	 fgetpos(FILE * __restrict, fpos_t * __restrict);
-char	*(fgets)(char * __restrict, int, FILE * __restrict);
-FILE	*fopen(const char * __restrict, const char * __restrict);
-int	 fprintf(FILE * __restrict, const char * __restrict, ...);
-int	 fputc(int, FILE *);
-int	 fputs(const char * __restrict, FILE * __restrict);
-size_t	 fread(void * __restrict, size_t, size_t, FILE * __restrict);
-FILE	*freopen(const char * __restrict, const char * __restrict, FILE * __restrict);
-int	 fscanf(FILE * __restrict, const char * __restrict, ...);
-int	 fseek(FILE *, long, int);
-int	 fsetpos(FILE *, const fpos_t *);
-long	 ftell(FILE *);
-size_t	 fwrite(const void * __restrict, size_t, size_t, FILE * __restrict);
-int	 getc(FILE *);
-int	 getchar(void);
+__raw void clearerr(FILE *);
+__raw int	 fclose(FILE *);
+__raw int	 feof(FILE *);
+__raw int	 ferror(FILE *);
+__raw int	 fflush(FILE *);
+__raw int	 fgetc(FILE *);
+__raw int	 fgetpos(FILE * __restrict, fpos_t * __restrict);
+char	* __raw (fgets)(char * __restrict, int, FILE * __restrict);
+FILE	* __raw fopen(const char * __restrict, const char * __restrict);
+__raw int	 fprintf(FILE * __restrict, const char * __restrict, ...);
+__raw int	 fputc(int, FILE *);
+__raw int	 fputs(const char * __restrict, FILE * __restrict);
+__raw size_t	 fread(void * __restrict, size_t, size_t, FILE * __restrict);
+FILE	* __raw freopen(const char * __restrict, const char * __restrict, FILE * __restrict);
+__raw int	 fscanf(FILE * __restrict, const char * __restrict, ...);
+__raw int	 fseek(FILE *, long, int);
+__raw int	 fsetpos(FILE *, const fpos_t *);
+__raw long	 ftell(FILE *);
+__raw size_t	 fwrite(const void * __restrict, size_t, size_t, FILE * __restrict);
+__raw int	 getc(FILE *);
+__raw int	 getchar(void);
 #if __EXT1_VISIBLE
-char	*gets_s(char *, rsize_t);
+char	* __raw gets_s(char *, rsize_t);
 #endif
-void	 perror(const char *);
-int	 printf(const char * __restrict, ...);
-int	 putc(int, FILE *);
-int	 putchar(int);
-int	 puts(const char *);
-int	 remove(const char *);
-int	 rename(const char *, const char *);
-void	 rewind(FILE *);
-int	 scanf(const char * __restrict, ...);
-void	 setbuf(FILE * __restrict, char * __restrict);
-int	 setvbuf(FILE * __restrict, char * __restrict, int, size_t);
-int	 (sprintf)(char * __restrict, const char * __restrict, ...);
-int	 sscanf(const char * __restrict, const char * __restrict, ...);
-FILE	*tmpfile(void);
-char	*tmpnam(char *);
-int	 ungetc(int, FILE *);
-int	 vfprintf(FILE * __restrict, const char * __restrict,
+__raw void	 perror(const char *);
+__raw int	 printf(const char * __restrict, ...);
+__raw int	 putc(int, FILE *);
+__raw int	 putchar(int);
+__raw int	 puts(const char *);
+__raw int	 remove(const char *);
+__raw int	 rename(const char *, const char *);
+__raw void	 rewind(FILE *);
+__raw int	 scanf(const char * __restrict, ...);
+__raw void	 setbuf(FILE * __restrict, char * __restrict);
+__raw int	 setvbuf(FILE * __restrict, char * __restrict, int, size_t);
+__raw int	 (sprintf)(char * __restrict, const char * __restrict, ...);
+__raw int	 sscanf(const char * __restrict, const char * __restrict, ...);
+FILE	* __raw tmpfile(void);
+char	* __raw tmpnam(char *);
+__raw int	 ungetc(int, FILE *);
+__raw int	 vfprintf(FILE * __restrict, const char * __restrict,
 	    __va_list);
-int	 vprintf(const char * __restrict, __va_list);
-int	 (vsprintf)(char * __restrict, const char * __restrict,
+__raw int	 vprintf(const char * __restrict, __va_list);
+__raw int	 (vsprintf)(char * __restrict, const char * __restrict,
 	    __va_list);
 
 #if __ISO_C_VISIBLE >= 1999 || __POSIX_VISIBLE >= 199506
-int	 (snprintf)(char * __restrict, size_t, const char * __restrict,
+__raw int	 (snprintf)(char * __restrict, size_t, const char * __restrict,
 	    ...) __printflike(3, 4);
-int	 (vsnprintf)(char * __restrict, size_t, const char * __restrict,
+__raw int	 (vsnprintf)(char * __restrict, size_t, const char * __restrict,
 	    __va_list) __printflike(3, 0);
 #endif
 #if __ISO_C_VISIBLE >= 1999
-int	 vfscanf(FILE * __restrict, const char * __restrict, __va_list)
+__raw int	 vfscanf(FILE * __restrict, const char * __restrict, __va_list)
 	    __scanflike(2, 0);
-int	 vscanf(const char * __restrict, __va_list) __scanflike(1, 0);
-int	 vsscanf(const char * __restrict, const char * __restrict, __va_list)
+__raw int	 vscanf(const char * __restrict, __va_list) __scanflike(1, 0);
+__raw int	 vsscanf(const char * __restrict, const char * __restrict, __va_list)
 	    __scanflike(2, 0);
 #endif
 
 #if __POSIX_VISIBLE
-char	*ctermid(char *);
-FILE	*fdopen(int, const char *);
-int	 fileno(FILE *);
+char	* __raw ctermid(char *);
+FILE	* __raw fdopen(int, const char *);
+__raw int	 fileno(FILE *);
 #endif /* __POSIX_VISIBLE */
 
 #if __POSIX_VISIBLE >= 199209
-int	 pclose(FILE *);
-FILE	*popen(const char *, const char *);
+__raw int	 pclose(FILE *);
+FILE	* __raw popen(const char *, const char *);
 #endif
 
 #if __POSIX_VISIBLE >= 199506
-int	 ftrylockfile(FILE *);
-void	 flockfile(FILE *);
-void	 funlockfile(FILE *);
+__raw int	 ftrylockfile(FILE *);
+__raw void	 flockfile(FILE *);
+__raw void	 funlockfile(FILE *);
 
 /*
  * These are normally used through macros as defined below, but POSIX
  * requires functions as well.
  */
-int	 getc_unlocked(FILE *);
-int	 getchar_unlocked(void);
-int	 putc_unlocked(int, FILE *);
-int	 putchar_unlocked(int);
+__raw int	 getc_unlocked(FILE *);
+__raw int	 getchar_unlocked(void);
+__raw int	 putc_unlocked(int, FILE *);
+__raw int	 putchar_unlocked(int);
 #endif
 #if __BSD_VISIBLE
-void	 clearerr_unlocked(FILE *);
-int	 feof_unlocked(FILE *);
-int	 ferror_unlocked(FILE *);
-int	 fflush_unlocked(FILE *);
-int	 fileno_unlocked(FILE *);
-int	 fputc_unlocked(int, FILE *);
-int	 fputs_unlocked(const char * __restrict, FILE * __restrict);
-size_t	 fread_unlocked(void * __restrict, size_t, size_t, FILE * __restrict);
-size_t	 fwrite_unlocked(const void * __restrict, size_t, size_t,
+__raw void	 clearerr_unlocked(FILE *);
+__raw int	 feof_unlocked(FILE *);
+__raw int	 ferror_unlocked(FILE *);
+__raw int	 fflush_unlocked(FILE *);
+__raw int	 fileno_unlocked(FILE *);
+__raw int	 fputc_unlocked(int, FILE *);
+__raw int	 fputs_unlocked(const char * __restrict, FILE * __restrict);
+__raw size_t	 fread_unlocked(void * __restrict, size_t, size_t, FILE * __restrict);
+__raw size_t	 fwrite_unlocked(const void * __restrict, size_t, size_t,
     FILE * __restrict);
 #endif
 
 #if __POSIX_VISIBLE >= 200112 || __XSI_VISIBLE >= 500
-int	 fseeko(FILE *, __off_t, int);
-__off_t	 ftello(FILE *);
+__raw int	 fseeko(FILE *, __off_t, int);
+__raw __off_t	 ftello(FILE *);
 #endif
 
 #if __BSD_VISIBLE || __XSI_VISIBLE > 0 && __XSI_VISIBLE < 600
-int	 getw(FILE *);
-int	 putw(int, FILE *);
+__raw int	 getw(FILE *);
+__raw int	 putw(int, FILE *);
 #endif /* BSD or X/Open before issue 6 */
 
 #if __XSI_VISIBLE
-char	*tempnam(const char *, const char *);
+char	* __raw tempnam(const char *, const char *);
 #endif
 
 #if __POSIX_VISIBLE >= 200809
-FILE	*fmemopen(void * __restrict, size_t, const char * __restrict);
-ssize_t	 getdelim(char ** __restrict, size_t * __restrict, int,
+FILE	* __raw fmemopen(void * __restrict, size_t, const char * __restrict);
+__raw ssize_t	 getdelim(char ** __restrict, size_t * __restrict, int,
 	    FILE * __restrict);
-FILE	*open_memstream(char **, size_t *);
-int	 renameat(int, const char *, int, const char *);
-int	 vdprintf(int, const char * __restrict, __va_list) __printflike(2, 0);
+FILE	* __raw open_memstream(char **, size_t *);
+__raw int	 renameat(int, const char *, int, const char *);
+__raw int	 vdprintf(int, const char * __restrict, __va_list) __printflike(2, 0);
 /* _WITH_GETLINE to allow pre 11 sources to build on 11+ systems */
-ssize_t	 getline(char ** __restrict, size_t * __restrict, FILE * __restrict);
-int	 dprintf(int, const char * __restrict, ...) __printflike(2, 3);
+__raw ssize_t	 getline(char ** __restrict, size_t * __restrict, FILE * __restrict);
+__raw int	 dprintf(int, const char * __restrict, ...) __printflike(2, 3);
 #endif /* __POSIX_VISIBLE >= 200809 */
 
 /*
  * Routines that are purely local.
  */
 #if __BSD_VISIBLE
-int	 asprintf(char **, const char *, ...) __printflike(2, 3);
-char	*ctermid_r(char *);
-void	 fcloseall(void);
-int	 fdclose(FILE *, int *);
-char	*fgetln(FILE *, size_t *);
-const char *fmtcheck(const char *, const char *) __format_arg(2);
-int	 fpurge(FILE *);
-void	 setbuffer(FILE *, char *, int);
-int	 setlinebuf(FILE *);
-int	 vasprintf(char **, const char *, __va_list)
+__raw int	 asprintf(char **, const char *, ...) __printflike(2, 3);
+char	* __raw ctermid_r(char *);
+__raw void	 fcloseall(void);
+__raw int	 fdclose(FILE *, int *);
+char	* __raw fgetln(FILE *, size_t *);
+const char * __raw fmtcheck(const char *, const char *) __format_arg(2);
+__raw int	 fpurge(FILE *);
+__raw void	 setbuffer(FILE *, char *, int);
+__raw int	 setlinebuf(FILE *);
+__raw int	 vasprintf(char **, const char *, __va_list)
 	    __printflike(2, 0);
 
 /*
@@ -408,13 +408,13 @@ int	 vasprintf(char **, const char *, __va_list)
  * positive errno values.  Use strerror() or strerror_r() from <string.h>
  * instead.
  */
-extern const int sys_nerr;
-extern const char * const sys_errlist[];
+extern __raw const int sys_nerr;
+extern const char * __raw const sys_errlist[];
 
 /*
  * Stdio function-access interface.
  */
-FILE	*funopen(const void *,
+FILE	* __raw funopen(const void *,
 	    int (* _Nullable)(void *, char *, int),
 	    int (* _Nullable)(void *, const char *, int),
 	    fpos_t (* _Nullable)(void *, fpos_t, int),
@@ -433,7 +433,7 @@ typedef struct {
 	cookie_seek_function_t	*seek;
 	cookie_close_function_t	*close;
 } cookie_io_functions_t;
-FILE	*fopencookie(void *, const char *, cookie_io_functions_t);
+FILE	* __raw fopencookie(void *, const char *, cookie_io_functions_t);
 #endif
 
 /*
@@ -441,27 +441,27 @@ FILE	*fopencookie(void *, const char *, cookie_io_functions_t);
  */
 #ifndef _FTRUNCATE_DECLARED
 #define	_FTRUNCATE_DECLARED
-int	 ftruncate(int, __off_t);
+__raw int	 ftruncate(int, __off_t);
 #endif
 #ifndef _LSEEK_DECLARED
 #define	_LSEEK_DECLARED
-__off_t	 lseek(int, __off_t, int);
+__raw __off_t	 lseek(int, __off_t, int);
 #endif
 #ifndef _MMAP_DECLARED
 #define	_MMAP_DECLARED
-void	*mmap(void *, size_t, int, int, int, __off_t);
+void	* __raw mmap(void *, size_t, int, int, int, __off_t);
 #endif
 #ifndef _TRUNCATE_DECLARED
 #define	_TRUNCATE_DECLARED
-int	 truncate(const char *, __off_t);
+__raw int	 truncate(const char *, __off_t);
 #endif
 #endif /* __BSD_VISIBLE */
 
 /*
  * Functions internal to the implementation.
  */
-int	__srget(FILE *);
-int	__swbuf(int, FILE *);
+__raw int	__srget(FILE *);
+__raw int	__swbuf(int, FILE *);
 
 /*
  * The __sfoo macros are here so that we can
@@ -469,7 +469,7 @@ int	__swbuf(int, FILE *);
  */
 #define	__sgetc(p) (--(p)->_r < 0 ? __srget(p) : (int)(*(p)->_p++))
 #if defined(__GNUC__) && defined(__STDC__)
-static __inline int __sputc(int _c, FILE *_p) {
+static __inline int __sputc(int _c, __raw FILE *_p) {
 	if (--_p->_w >= 0 || (_p->_w >= _p->_lbfsize && (char)_c != '\n'))
 		return (*_p->_p++ = _c);
 	else
@@ -491,7 +491,7 @@ static __inline int __sputc(int _c, FILE *_p) {
 
 #ifndef __LIBC_ISTHREADED_DECLARED
 #define __LIBC_ISTHREADED_DECLARED
-extern int __isthreaded;
+extern __raw int __isthreaded;
 #endif
 
 #ifndef __cplusplus

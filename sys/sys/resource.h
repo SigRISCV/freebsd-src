@@ -178,20 +178,20 @@ struct loadavg {
 
 #ifdef _KERNEL
 
-extern struct loadavg averunnable;
-void	read_cpu_time(long *cp_time);	/* Writes array of CPUSTATES */
+extern __raw struct loadavg averunnable;
+__raw void	read_cpu_time(long *cp_time);	/* Writes array of CPUSTATES */
 
 #else
 
 __BEGIN_DECLS
 /* XXX 2nd arg to [gs]etpriority() should be an id_t */
-int	getpriority(int, int);
-int	getrlimit(int, struct rlimit *);
-int	getrusage(int, struct rusage *);
-int	setpriority(int, int, int);
-int	setrlimit(int, const struct rlimit *);
+__raw int	getpriority(int, int);
+__raw int	getrlimit(int, struct rlimit *);
+__raw int	getrusage(int, struct rusage *);
+__raw int	setpriority(int, int, int);
+__raw int	setrlimit(int, const struct rlimit *);
 #if __BSD_VISIBLE
-int	getrlimitusage(unsigned which, int flags, rlim_t *res);
+__raw int	getrlimitusage(unsigned which, int flags, rlim_t *res);
 #endif
 __END_DECLS
 

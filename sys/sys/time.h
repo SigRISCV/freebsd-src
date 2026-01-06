@@ -495,24 +495,24 @@ struct clockinfo {
 /*
  * Kernel to clock driver interface.
  */
-void	inittodr(time_t base);
-void	resettodr(void);
+__raw void	inittodr(time_t base);
+__raw void	resettodr(void);
 
-extern volatile time_t	time_second;
-extern volatile time_t	time_uptime;
-extern struct bintime tc_tick_bt;
-extern sbintime_t tc_tick_sbt;
-extern time_t tick_seconds_max;
-extern struct bintime tick_bt;
-extern sbintime_t tick_sbt;
-extern int tc_precexp;
-extern int tc_timepercentage;
-extern struct bintime bt_timethreshold;
-extern struct bintime bt_tickthreshold;
-extern sbintime_t sbt_timethreshold;
-extern sbintime_t sbt_tickthreshold;
+extern __raw volatile time_t	time_second;
+extern __raw volatile time_t	time_uptime;
+extern __raw struct bintime tc_tick_bt;
+extern __raw sbintime_t tc_tick_sbt;
+extern __raw time_t tick_seconds_max;
+extern __raw struct bintime tick_bt;
+extern __raw sbintime_t tick_sbt;
+extern __raw int tc_precexp;
+extern __raw int tc_timepercentage;
+extern __raw struct bintime bt_timethreshold;
+extern __raw struct bintime bt_tickthreshold;
+extern __raw sbintime_t sbt_timethreshold;
+extern __raw sbintime_t sbt_tickthreshold;
 
-extern volatile int rtc_generation;
+extern __raw volatile int rtc_generation;
 
 /*
  * Functions for looking at our clock: [get]{bin,nano,micro}[up]time()
@@ -535,9 +535,9 @@ extern volatile int rtc_generation;
  * performance is priority. (NB: "precision", _not_ "resolution" !)
  */
 
-void	binuptime(struct bintime *bt);
-void	nanouptime(struct timespec *tsp);
-void	microuptime(struct timeval *tvp);
+__raw void	binuptime(struct bintime *bt);
+__raw void	nanouptime(struct timespec *tsp);
+__raw void	microuptime(struct timeval *tvp);
 
 static __inline sbintime_t
 sbinuptime(void)
@@ -548,13 +548,13 @@ sbinuptime(void)
 	return (bttosbt(_bt));
 }
 
-void	bintime(struct bintime *bt);
-void	nanotime(struct timespec *tsp);
-void	microtime(struct timeval *tvp);
+__raw void	bintime(struct bintime *bt);
+__raw void	nanotime(struct timespec *tsp);
+__raw void	microtime(struct timeval *tvp);
 
-void	getbinuptime(struct bintime *bt);
-void	getnanouptime(struct timespec *tsp);
-void	getmicrouptime(struct timeval *tvp);
+__raw void	getbinuptime(struct bintime *bt);
+__raw void	getnanouptime(struct timespec *tsp);
+__raw void	getmicrouptime(struct timeval *tvp);
 
 static __inline sbintime_t
 getsbinuptime(void)
@@ -565,22 +565,22 @@ getsbinuptime(void)
 	return (bttosbt(_bt));
 }
 
-void	getbintime(struct bintime *bt);
-void	getnanotime(struct timespec *tsp);
-void	getmicrotime(struct timeval *tvp);
+__raw void	getbintime(struct bintime *bt);
+__raw void	getnanotime(struct timespec *tsp);
+__raw void	getmicrotime(struct timeval *tvp);
 
-void	getboottime(struct timeval *boottime);
-void	getboottimebin(struct bintime *boottimebin);
+__raw void	getboottime(struct timeval *boottime);
+__raw void	getboottimebin(struct bintime *boottimebin);
 
 /* Other functions */
-int	itimerdecr(struct itimerval *itp, int usec);
-int	itimerfix(struct timeval *tv);
-int	eventratecheck(struct timeval *, int *, int);
+__raw int	itimerdecr(struct itimerval *itp, int usec);
+__raw int	itimerfix(struct timeval *tv);
+__raw int	eventratecheck(struct timeval *, int *, int);
 #define	ppsratecheck(t, c, m) eventratecheck(t, c, m)
-int	ratecheck(struct timeval *, const struct timeval *);
-void	timevaladd(struct timeval *t1, const struct timeval *t2);
-void	timevalsub(struct timeval *t1, const struct timeval *t2);
-int	tvtohz(struct timeval *tv);
+__raw int	ratecheck(struct timeval *, const struct timeval *);
+__raw void	timevaladd(struct timeval *t1, const struct timeval *t2);
+__raw void	timevalsub(struct timeval *t1, const struct timeval *t2);
+__raw int	tvtohz(struct timeval *tv);
 
 /*
  * The following HZ limits allow the tvtohz() function
@@ -616,21 +616,21 @@ int	tvtohz(struct timeval *tv);
 #endif
 
 __BEGIN_DECLS
-int	setitimer(int, const struct itimerval *, struct itimerval *);
-int	utimes(const char *, const struct timeval *);
+__raw int	setitimer(int, const struct itimerval *, struct itimerval *);
+__raw int	utimes(const char *, const struct timeval *);
 
 #if __BSD_VISIBLE
-int	adjtime(const struct timeval *, struct timeval *);
-int	clock_getcpuclockid2(id_t, int, clockid_t *);
-int	futimes(int, const struct timeval *);
-int	futimesat(int, const char *, const struct timeval [2]);
-int	lutimes(const char *, const struct timeval *);
-int	settimeofday(const struct timeval *, const struct timezone *);
+__raw int	adjtime(const struct timeval *, struct timeval *);
+__raw int	clock_getcpuclockid2(id_t, int, clockid_t *);
+__raw int	futimes(int, const struct timeval *);
+__raw int	futimesat(int, const char *, const struct timeval [2]);
+__raw int	lutimes(const char *, const struct timeval *);
+__raw int	settimeofday(const struct timeval *, const struct timezone *);
 #endif
 
 #if __XSI_VISIBLE
-int	getitimer(int, struct itimerval *);
-int	gettimeofday(struct timeval *, struct timezone *);
+__raw int	getitimer(int, struct itimerval *);
+__raw int	gettimeofday(struct timeval *, struct timezone *);
 #endif
 
 __END_DECLS

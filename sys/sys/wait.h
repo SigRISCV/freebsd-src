@@ -154,17 +154,17 @@ typedef enum
 
 __BEGIN_DECLS
 struct __siginfo;
-pid_t	wait(int *);
-pid_t	waitpid(pid_t, int *, int);
+__raw pid_t	wait(int *);
+__raw pid_t	waitpid(pid_t, int *, int);
 #if __POSIX_VISIBLE >= 200112
-int	waitid(idtype_t, id_t, struct __siginfo *, int);
+__raw int	waitid(idtype_t, id_t, struct __siginfo *, int);
 #endif
 #if __BSD_VISIBLE
 struct rusage;
 struct __wrusage;
-pid_t	wait3(int *, int, struct rusage *);
-pid_t	wait4(pid_t, int *, int, struct rusage *);
-pid_t	wait6(idtype_t, id_t, int *, int, struct __wrusage *,
+__raw pid_t	wait3(int *, int, struct rusage *);
+__raw pid_t	wait4(pid_t, int *, int, struct rusage *);
+__raw pid_t	wait6(idtype_t, id_t, int *, int, struct __wrusage *,
 	    struct __siginfo *);
 #endif
 __END_DECLS

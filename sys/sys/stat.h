@@ -363,45 +363,45 @@ struct nstat {
 #ifndef _KERNEL
 __BEGIN_DECLS
 #if __BSD_VISIBLE
-int	chflags(const char *, unsigned long);
-int	chflagsat(int, const char *, unsigned long, int);
+__raw int	chflags(const char *, unsigned long);
+__raw int	chflagsat(int, const char *, unsigned long, int);
 #endif
-int	chmod(const char *, mode_t);
+__raw int	chmod(const char *, mode_t);
 #if __BSD_VISIBLE
-int	fchflags(int, unsigned long);
+__raw int	fchflags(int, unsigned long);
 #endif
 #if __POSIX_VISIBLE >= 200112
-int	fchmod(int, mode_t);
+__raw int	fchmod(int, mode_t);
 #endif
 #if __POSIX_VISIBLE >= 200809
-int	fchmodat(int, const char *, mode_t, int);
-int	futimens(int fd, const struct timespec times[2]);
-int	utimensat(int fd, const char *path, const struct timespec times[2],
+__raw int	fchmodat(int, const char *, mode_t, int);
+__raw int	futimens(int fd, const struct timespec times[2]);
+__raw int	utimensat(int fd, const char *path, const struct timespec times[2],
 		int flag);
 #endif
-int	fstat(int, struct stat *);
+__raw int	fstat(int, struct stat *);
 #if __BSD_VISIBLE
-int	lchflags(const char *, unsigned long);
-int	lchmod(const char *, mode_t);
+__raw int	lchflags(const char *, unsigned long);
+__raw int	lchmod(const char *, mode_t);
 #endif
 #if __POSIX_VISIBLE >= 200112
-int	lstat(const char * __restrict, struct stat * __restrict);
+__raw int	lstat(const char * __restrict, struct stat * __restrict);
 #endif
-int	mkdir(const char *, mode_t);
-int	mkfifo(const char *, mode_t);
+__raw int	mkdir(const char *, mode_t);
+__raw int	mkfifo(const char *, mode_t);
 #if !defined(_MKNOD_DECLARED) && __XSI_VISIBLE
-int	mknod(const char *, mode_t, dev_t);
+__raw int	mknod(const char *, mode_t, dev_t);
 #define	_MKNOD_DECLARED
 #endif
-int	stat(const char * __restrict, struct stat * __restrict);
-mode_t	umask(mode_t);
+__raw int	stat(const char * __restrict, struct stat * __restrict);
+__raw mode_t	umask(mode_t);
 #if __POSIX_VISIBLE >= 200809
-int	fstatat(int, const char *, struct stat *, int);
-int	mkdirat(int, const char *, mode_t);
-int	mkfifoat(int, const char *, mode_t);
+__raw int	fstatat(int, const char *, struct stat *, int);
+__raw int	mkdirat(int, const char *, mode_t);
+__raw int	mkfifoat(int, const char *, mode_t);
 #endif
 #if __XSI_VISIBLE >= 700
-int	mknodat(int, const char *, mode_t, dev_t);
+__raw int	mknodat(int, const char *, mode_t, dev_t);
 #endif
 __END_DECLS
 #endif /* !_KERNEL */

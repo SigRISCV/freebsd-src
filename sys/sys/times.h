@@ -55,7 +55,7 @@ struct tms {
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-clock_t	times(struct tms *);
+__raw clock_t	times(struct tms *);
 __END_DECLS
 #endif
 #endif /* !_SYS_TIMES_H_ */

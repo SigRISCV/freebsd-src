@@ -114,9 +114,9 @@ typedef	__sigset_t	sigset_t;
 #endif
 
 __BEGIN_DECLS
-int	poll(struct pollfd _pfd[], nfds_t _nfds, int _timeout);
+__raw int	poll(struct pollfd _pfd[], nfds_t _nfds, int _timeout);
 #if __POSIX_VISIBLE >= 202405
-int	ppoll(struct pollfd _pfd[], nfds_t _nfds,
+__raw int	ppoll(struct pollfd _pfd[], nfds_t _nfds,
 	    const struct timespec *__restrict _timeout,
 	    const sigset_t *__restrict _newsigmask);
 #endif

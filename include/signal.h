@@ -51,9 +51,9 @@ __NULLABILITY_PRAGMA_PUSH
  * XXX should enlarge these, if only to give empty names instead of bounds
  * errors for large signal numbers.
  */
-extern const char * const sys_signame[NSIG];
-extern const char * const sys_siglist[NSIG];
-extern const int sys_nsig;
+extern const char * __raw const sys_signame[NSIG];
+extern const char * __raw const sys_siglist[NSIG];
+extern __raw const int sys_nsig;
 #endif
 
 #if __POSIX_VISIBLE >= 200112 || __XSI_VISIBLE
@@ -80,67 +80,67 @@ __BEGIN_DECLS
 int	raise(int);
 
 #if __POSIX_VISIBLE || __XSI_VISIBLE
-int	kill(__pid_t, int);
-int	pthread_kill(__pthread_t, int);
-int	pthread_sigmask(int, const __sigset_t * __restrict,
+__raw int	kill(__pid_t, int);
+__raw int	pthread_kill(__pthread_t, int);
+__raw int	pthread_sigmask(int, const __sigset_t * __restrict,
 	    __sigset_t * __restrict);
-int	sigaction(int, const struct sigaction * __restrict,
+__raw int	sigaction(int, const struct sigaction * __restrict,
 	    struct sigaction * __restrict);
-int	sigaddset(sigset_t *, int);
-int	sigdelset(sigset_t *, int);
-int	sigemptyset(sigset_t *);
-int	sigfillset(sigset_t *);
-int	sigismember(const sigset_t *, int);
-int	sigpending(sigset_t * _Nonnull);
-int	sigprocmask(int, const sigset_t * __restrict, sigset_t * __restrict);
-int	sigsuspend(const sigset_t * _Nonnull);
-int	sigwait(const sigset_t * _Nonnull __restrict,
+__raw int	sigaddset(sigset_t *, int);
+__raw int	sigdelset(sigset_t *, int);
+__raw int	sigemptyset(sigset_t *);
+__raw int	sigfillset(sigset_t *);
+__raw int	sigismember(const sigset_t *, int);
+__raw int	sigpending(sigset_t * _Nonnull);
+__raw int	sigprocmask(int, const sigset_t * __restrict, sigset_t * __restrict);
+__raw int	sigsuspend(const sigset_t * _Nonnull);
+__raw int	sigwait(const sigset_t * _Nonnull __restrict,
 	    int * _Nonnull __restrict);
 #endif
 
 #if __POSIX_VISIBLE >= 199506 || __XSI_VISIBLE >= 600
-int	sigqueue(__pid_t, int, const union sigval);
+__raw int	sigqueue(__pid_t, int, const union sigval);
 
 struct timespec;
-int	sigtimedwait(const sigset_t * __restrict, siginfo_t * __restrict,
+__raw int	sigtimedwait(const sigset_t * __restrict, siginfo_t * __restrict,
 	    const struct timespec * __restrict);
-int	sigwaitinfo(const sigset_t * __restrict, siginfo_t * __restrict);
+__raw int	sigwaitinfo(const sigset_t * __restrict, siginfo_t * __restrict);
 #endif
 
 #if __XSI_VISIBLE
-int	killpg(__pid_t, int);
-int	sigaltstack(const stack_t * __restrict, stack_t * __restrict); 
-int	sighold(int);
-int	sigignore(int);
-int	sigpause(int);
-int	sigrelse(int);
-void	(* _Nullable sigset(int, void (* _Nullable)(int)))(int);
-int	xsi_sigpause(int);
+__raw int	killpg(__pid_t, int);
+__raw int	sigaltstack(const stack_t * __restrict, stack_t * __restrict); 
+__raw int	sighold(int);
+__raw int	sigignore(int);
+__raw int	sigpause(int);
+__raw int	sigrelse(int);
+void	(* __raw _Nullable sigset(int, void (* _Nullable)(int)))(int);
+__raw int	xsi_sigpause(int);
 #endif
 
 #if __XSI_VISIBLE >= 600
-int	siginterrupt(int, int);
+__raw int	siginterrupt(int, int);
 #endif
 
 #if __POSIX_VISIBLE >= 200809
-void	psiginfo(const siginfo_t *, const char *);
-void	psignal(int, const char *);
+__raw void	psiginfo(const siginfo_t *, const char *);
+__raw void	psignal(int, const char *);
 #endif
 
 #if __POSIX_VISIBLE >= 202405 || __BSD_VISIBLE
-int sig2str(int, char *);
-int str2sig(const char * __restrict, int * __restrict);
+__raw int sig2str(int, char *);
+__raw int str2sig(const char * __restrict, int * __restrict);
 #endif
 
 #if __BSD_VISIBLE
-int	sigandset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
-int	sigblock(int);
-int	sigisemptyset(const sigset_t *set);
-int	sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
-int	sigreturn(const struct __ucontext *);
-int	sigsetmask(int);
-int	sigstack(const struct sigstack *, struct sigstack *);
-int	sigvec(int, struct sigvec *, struct sigvec *);
+__raw int	sigandset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
+__raw int	sigblock(int);
+__raw int	sigisemptyset(const sigset_t *set);
+__raw int	sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
+__raw int	sigreturn(const struct __ucontext *);
+__raw int	sigsetmask(int);
+__raw int	sigstack(const struct sigstack *, struct sigstack *);
+__raw int	sigvec(int, struct sigvec *, struct sigvec *);
 #endif
 __END_DECLS
 __NULLABILITY_PRAGMA_POP

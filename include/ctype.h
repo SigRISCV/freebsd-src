@@ -45,37 +45,37 @@
 #include <_ctype.h>
 
 __BEGIN_DECLS
-int	isalnum(int);
-int	isalpha(int);
-int	iscntrl(int);
-int	isdigit(int);
-int	isgraph(int);
-int	islower(int);
-int	isprint(int);
-int	ispunct(int);
-int	isspace(int);
-int	isupper(int);
-int	isxdigit(int);
-int	tolower(int);
-int	toupper(int);
+__raw int	isalnum(int);
+__raw int	isalpha(int);
+__raw int	iscntrl(int);
+__raw int	isdigit(int);
+__raw int	isgraph(int);
+__raw int	islower(int);
+__raw int	isprint(int);
+__raw int	ispunct(int);
+__raw int	isspace(int);
+__raw int	isupper(int);
+__raw int	isxdigit(int);
+__raw int	tolower(int);
+__raw int	toupper(int);
 
 #if __XSI_VISIBLE
-int	isascii(int);
-int	toascii(int);
+__raw int	isascii(int);
+__raw int	toascii(int);
 #endif
 
 #if __ISO_C_VISIBLE >= 1999
-int	isblank(int);
+__raw int	isblank(int);
 #endif
 
 #if __BSD_VISIBLE
-int	digittoint(int);
-int	ishexnumber(int);
-int	isideogram(int);
-int	isnumber(int);
-int	isphonogram(int);
-int	isrune(int);
-int	isspecial(int);
+__raw int	digittoint(int);
+__raw int	ishexnumber(int);
+__raw int	isideogram(int);
+__raw int	isnumber(int);
+__raw int	isphonogram(int);
+__raw int	isrune(int);
+__raw int	isspecial(int);
 #endif
 
 #if __POSIX_VISIBLE >= 200809 || defined(_XLOCALE_H_)

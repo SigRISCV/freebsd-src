@@ -110,72 +110,72 @@ struct tm {
 };
 
 #if __POSIX_VISIBLE
-extern char *tzname[];
+extern char * __raw tzname[];
 #endif
 
 __BEGIN_DECLS
-char *asctime(const struct tm *);
-clock_t clock(void);
-char *ctime(const time_t *);
+char * __raw asctime(const struct tm *);
+__raw clock_t clock(void);
+char * __raw ctime(const time_t *);
 #ifndef _STANDALONE
-double difftime(time_t, time_t);
+__raw double difftime(time_t, time_t);
 #endif
 /* XXX missing: getdate() */
-struct tm *gmtime(const time_t *);
-struct tm *localtime(const time_t *);
-time_t mktime(struct tm *);
-size_t strftime(char * __restrict, size_t, const char * __restrict,
+struct tm * __raw gmtime(const time_t *);
+struct tm * __raw localtime(const time_t *);
+__raw time_t mktime(struct tm *);
+__raw size_t strftime(char * __restrict, size_t, const char * __restrict,
     const struct tm * __restrict);
-time_t time(time_t *);
+__raw time_t time(time_t *);
 #if __POSIX_VISIBLE >= 200112
 struct sigevent;
-int timer_create(clockid_t, struct sigevent *__restrict, timer_t *__restrict);
-int timer_delete(timer_t);
-int timer_gettime(timer_t, struct itimerspec *);
-int timer_getoverrun(timer_t);
-int timer_settime(timer_t, int, const struct itimerspec *__restrict,
+__raw int timer_create(clockid_t, struct sigevent *__restrict, timer_t *__restrict);
+__raw int timer_delete(timer_t);
+__raw int timer_gettime(timer_t, struct itimerspec *);
+__raw int timer_getoverrun(timer_t);
+__raw int timer_settime(timer_t, int, const struct itimerspec *__restrict,
 	struct itimerspec *__restrict);
 #endif
 #if __POSIX_VISIBLE
-void tzset(void);
+__raw void tzset(void);
 #endif
 
 #if __POSIX_VISIBLE >= 199309
-int clock_getres(clockid_t, struct timespec *);
-int clock_gettime(clockid_t, struct timespec *);
-int clock_settime(clockid_t, const struct timespec *);
-int nanosleep(const struct timespec *, struct timespec *);
+__raw int clock_getres(clockid_t, struct timespec *);
+__raw int clock_gettime(clockid_t, struct timespec *);
+__raw int clock_settime(clockid_t, const struct timespec *);
+__raw int nanosleep(const struct timespec *, struct timespec *);
 #endif /* __POSIX_VISIBLE >= 199309 */
 
 #if __POSIX_VISIBLE >= 200112
-int clock_getcpuclockid(pid_t, clockid_t *);
-int clock_nanosleep(clockid_t, int, const struct timespec *, struct timespec *);
+__raw int clock_getcpuclockid(pid_t, clockid_t *);
+__raw int clock_nanosleep(clockid_t, int, const struct timespec *, struct timespec *);
 #endif
 
 #if __POSIX_VISIBLE >= 199506
-char *asctime_r(const struct tm *, char *);
-char *ctime_r(const time_t *, char *);
+char * __raw asctime_r(const struct tm *, char *);
+char * __raw ctime_r(const time_t *, char *);
 #endif
 #if __POSIX_VISIBLE >= 199506 || __ISO_C_VISIBLE >= 2023
-struct tm *gmtime_r(const time_t *, struct tm *);
-struct tm *localtime_r(const time_t *, struct tm *);
+struct tm * __raw gmtime_r(const time_t *, struct tm *);
+struct tm * __raw localtime_r(const time_t *, struct tm *);
 #endif
 
 #if __XSI_VISIBLE
-char *strptime(const char * __restrict, const char * __restrict,
+char * __raw strptime(const char * __restrict, const char * __restrict,
     struct tm * __restrict);
-extern long timezone;
-extern int daylight;
+extern __raw long timezone;
+extern __raw int daylight;
 #endif
 
 #if __BSD_VISIBLE
-time_t timelocal(struct tm * const);
-time_t timegm(struct tm * const);
-int timer_oshandle_np(timer_t timerid);
-time_t time2posix(time_t t);
-time_t posix2time(time_t t);
-struct tm *offtime(const time_t *, long);
-struct tm *offtime_r(const time_t *__restrict, long, struct tm *__restrict);
+__raw time_t timelocal(struct tm * const);
+__raw time_t timegm(struct tm * const);
+__raw int timer_oshandle_np(timer_t timerid);
+__raw time_t time2posix(time_t t);
+__raw time_t posix2time(time_t t);
+struct tm * __raw offtime(const time_t *, long);
+struct tm * __raw offtime_r(const time_t *__restrict, long, struct tm *__restrict);
 #endif /* __BSD_VISIBLE */
 
 #if __POSIX_VISIBLE >= 200809 || defined(_XLOCALE_H_)
@@ -187,12 +187,12 @@ struct tm *offtime_r(const time_t *__restrict, long, struct tm *__restrict);
 #include <sys/_timespec.h>
 /* ISO/IEC 9899:2011 7.27.2.5 The timespec_get function */
 #define TIME_UTC	1	/* time elapsed since epoch */
-int timespec_get(struct timespec *ts, int base);
+__raw int timespec_get(struct timespec *ts, int base);
 #if __BSD_VISIBLE || __ISO_C_VISIBLE >= 2023
 /* ISO/IEC 9899:2024 7.29.1 Components of time */
 #define TIME_MONOTONIC	2	/* monotonic time */
 /* ISO/IEC 9899:2024 7.29.2.7 The timespec_getres function */
-int timespec_getres(struct timespec *, int);
+__raw int timespec_getres(struct timespec *, int);
 #endif
 #endif
 

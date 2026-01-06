@@ -39,9 +39,9 @@ typedef struct _cpuset cpu_set_t;
 
 __BEGIN_DECLS
 #if __BSD_VISIBLE
-int sched_getaffinity(pid_t pid, size_t cpusetsz, cpuset_t *cpuset);
-int sched_setaffinity(pid_t pid, size_t cpusetsz, const cpuset_t *cpuset);
-int sched_getcpu(void);
+__raw int sched_getaffinity(pid_t pid, size_t cpusetsz, cpuset_t *cpuset);
+__raw int sched_setaffinity(pid_t pid, size_t cpusetsz, const cpuset_t *cpuset);
+__raw int sched_getcpu(void);
 #endif /* __BSD_VISIBLE */
 __END_DECLS
 
