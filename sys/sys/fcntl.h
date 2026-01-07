@@ -403,20 +403,20 @@ struct spacectl_range {
 
 #ifndef _KERNEL
 __BEGIN_DECLS
-int	open(const char *, int, ...);
-int	creat(const char *, mode_t);
-int	fcntl(int, int, ...);
+__raw int	open(const char *, int, ...);
+__raw int	creat(const char *, mode_t);
+__raw int	fcntl(int, int, ...);
 #if __BSD_VISIBLE
-int	flock(int, int);
-int	fspacectl(int, int, const struct spacectl_range *, int,
+__raw int	flock(int, int);
+__raw int	fspacectl(int, int, const struct spacectl_range *, int,
 	    struct spacectl_range *);
 #endif
 #if __POSIX_VISIBLE >= 200809
-int	openat(int, const char *, int, ...);
+__raw int	openat(int, const char *, int, ...);
 #endif
 #if __POSIX_VISIBLE >= 200112
-int	posix_fadvise(int, off_t, off_t, int);
-int	posix_fallocate(int, off_t, off_t);
+__raw int	posix_fadvise(int, off_t, off_t, int);
+__raw int	posix_fallocate(int, off_t, off_t);
 #endif
 __END_DECLS
 #endif

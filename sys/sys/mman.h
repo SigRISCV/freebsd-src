@@ -326,33 +326,33 @@ __BEGIN_DECLS
  * posix_typed_mem_open().
  */
 #if __BSD_VISIBLE
-int	getpagesizes(size_t *, int);
-int	madvise(void *, size_t, int);
-int	mincore(const void *, size_t, char *);
-int	minherit(void *, size_t, int);
+__raw int	getpagesizes(size_t *, int);
+__raw int	madvise(void *, size_t, int);
+__raw int	mincore(const void *, size_t, char *);
+__raw int	minherit(void *, size_t, int);
 #endif
-int	mlock(const void *, size_t);
+__raw int	mlock(const void *, size_t);
 #ifndef _MMAP_DECLARED
 #define	_MMAP_DECLARED
-void *	mmap(void *, size_t, int, int, int, off_t);
+void * __raw	mmap(void *, size_t, int, int, int, off_t);
 #endif
-int	mprotect(void *, size_t, int);
-int	msync(void *, size_t, int);
-int	munlock(const void *, size_t);
-int	munmap(void *, size_t);
+__raw int	mprotect(void *, size_t, int);
+__raw int	msync(void *, size_t, int);
+__raw int	munlock(const void *, size_t);
+__raw int	munmap(void *, size_t);
 #if __POSIX_VISIBLE >= 200112
-int	posix_madvise(void *, size_t, int);
+__raw int	posix_madvise(void *, size_t, int);
 #endif
 #if __POSIX_VISIBLE >= 199309
-int	mlockall(int);
-int	munlockall(void);
-int	shm_open(const char *, int, mode_t);
-int	shm_unlink(const char *);
+__raw int	mlockall(int);
+__raw int	munlockall(void);
+__raw int	shm_open(const char *, int, mode_t);
+__raw int	shm_unlink(const char *);
 #endif
 #if __BSD_VISIBLE
-int	memfd_create(const char *, unsigned int);
-int	shm_create_largepage(const char *, int, int, int, mode_t);
-int	shm_rename(const char *, const char *, int);
+__raw int	memfd_create(const char *, unsigned int);
+__raw int	shm_create_largepage(const char *, int, int, int, mode_t);
+__raw int	shm_rename(const char *, const char *, int);
 #endif
 __END_DECLS
 
