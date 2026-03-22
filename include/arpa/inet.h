@@ -142,25 +142,25 @@ uint32_t	 ntohl(uint32_t);
 uint16_t	 ntohs(uint16_t);
 #endif
 
-in_addr_t	 inet_addr(const char *);
+__raw in_addr_t	 inet_addr(const char *);
 /*const*/ char	*inet_ntoa(struct in_addr);
-const char	*inet_ntop(int, const void * __restrict, char * __restrict,
+__raw const char	*inet_ntop(int, const void * __restrict, char * __restrict,
 		    socklen_t);
-int		 inet_pton(int, const char * __restrict, void * __restrict);
+__raw int		 inet_pton(int, const char * __restrict, void * __restrict);
 
 #if __BSD_VISIBLE
-int		 inet_aton(const char *, struct in_addr *);
-in_addr_t	 inet_lnaof(struct in_addr);
+__raw int		 inet_aton(const char *, struct in_addr *);
+__raw in_addr_t	 inet_lnaof(struct in_addr);
 struct in_addr	 inet_makeaddr(in_addr_t, in_addr_t);
 char *		 inet_neta(in_addr_t, char *, size_t);
-in_addr_t	 inet_netof(struct in_addr);
-in_addr_t	 inet_network(const char *);
+__raw in_addr_t	 inet_netof(struct in_addr);
+__raw in_addr_t	 inet_network(const char *);
 char		*inet_net_ntop(int, const void *, int, char *, size_t);
-int		 inet_net_pton(int, const char *, void *, size_t);
+__raw int		 inet_net_pton(int, const char *, void *, size_t);
 char		*inet_ntoa_r(struct in_addr, char *buf, socklen_t size);
 char		*inet_cidr_ntop(int, const void *, int, char *, size_t);
-int		 inet_cidr_pton(int, const char *, void *, int *);
-unsigned	 inet_nsap_addr(const char *, unsigned char *, int);
+__raw int		 inet_cidr_pton(int, const char *, void *, int *);
+__raw unsigned	 inet_nsap_addr(const char *, unsigned char *, int);
 char		*inet_nsap_ntoa(int, const unsigned char *, char *);
 #endif /* __BSD_VISIBLE */
 __END_DECLS

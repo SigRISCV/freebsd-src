@@ -617,13 +617,13 @@ struct sockaddr;
  * The RFC specifies uint_t for the 6th argument to [sg]etsourcefilter().
  * We use uint32_t here to be consistent.
  */
-int	setipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t,
+__raw int	setipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t,
 	    uint32_t, struct in_addr *);
-int	getipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t *,
+__raw int	getipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t *,
 	    uint32_t *, struct in_addr *);
-int	setsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
+__raw int	setsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
 	    uint32_t, uint32_t, struct sockaddr_storage *);
-int	getsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
+__raw int	getsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
 	    uint32_t *, uint32_t *, struct sockaddr_storage *);
 
 /*
@@ -680,10 +680,10 @@ bool	 in_localip(struct in_addr);
 bool	 in_localip_fib(struct in_addr, uint16_t);
 bool	 in_ifhasaddr(struct ifnet *, struct in_addr);
 struct in_ifaddr *in_findlocal(uint32_t, bool);
-int	 inet_aton(const char *, struct in_addr *); /* in libkern */
+__raw int	 inet_aton(const char *, struct in_addr *); /* in libkern */
 char	*inet_ntoa_r(struct in_addr ina, char *buf); /* in libkern */
 char	*inet_ntop(int, const void *, char *, socklen_t); /* in libkern */
-int	 inet_pton(int af, const char *, void *); /* in libkern */
+__raw int	 inet_pton(int af, const char *, void *); /* in libkern */
 void	 in_ifdetach(struct ifnet *);
 
 static inline bool

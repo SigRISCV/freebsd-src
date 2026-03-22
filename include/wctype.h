@@ -57,36 +57,36 @@ typedef	__wint_t	wint_t;
 #endif
 
 __BEGIN_DECLS
-int	iswalnum(wint_t);
-int	iswalpha(wint_t);
-int	iswblank(wint_t);
-int	iswcntrl(wint_t);
-int	iswctype(wint_t, wctype_t);
-int	iswdigit(wint_t);
-int	iswgraph(wint_t);
-int	iswlower(wint_t);
-int	iswprint(wint_t);
-int	iswpunct(wint_t);
-int	iswspace(wint_t);
-int	iswupper(wint_t);
-int	iswxdigit(wint_t);
-wint_t	towctrans(wint_t, wctrans_t);
-wint_t	towlower(wint_t);
-wint_t	towupper(wint_t);
+__raw int	iswalnum(wint_t);
+__raw int	iswalpha(wint_t);
+__raw int	iswblank(wint_t);
+__raw int	iswcntrl(wint_t);
+__raw int	iswctype(wint_t, wctype_t);
+__raw int	iswdigit(wint_t);
+__raw int	iswgraph(wint_t);
+__raw int	iswlower(wint_t);
+__raw int	iswprint(wint_t);
+__raw int	iswpunct(wint_t);
+__raw int	iswspace(wint_t);
+__raw int	iswupper(wint_t);
+__raw int	iswxdigit(wint_t);
+__raw wint_t	towctrans(wint_t, wctrans_t);
+__raw wint_t	towlower(wint_t);
+__raw wint_t	towupper(wint_t);
 wctrans_t
 	wctrans(const char *);
 wctype_t
 	wctype(const char *);
 
 #if __BSD_VISIBLE
-wint_t	iswascii(wint_t);
-wint_t	iswhexnumber(wint_t);
-wint_t	iswideogram(wint_t);
-wint_t	iswnumber(wint_t);
-wint_t	iswphonogram(wint_t);
-wint_t	iswrune(wint_t);
-wint_t	iswspecial(wint_t);
-wint_t	nextwctype(wint_t, wctype_t);
+__raw wint_t	iswascii(wint_t);
+__raw wint_t	iswhexnumber(wint_t);
+__raw wint_t	iswideogram(wint_t);
+__raw wint_t	iswnumber(wint_t);
+__raw wint_t	iswphonogram(wint_t);
+__raw wint_t	iswrune(wint_t);
+__raw wint_t	iswspecial(wint_t);
+__raw wint_t	nextwctype(wint_t, wctype_t);
 #endif
 
 #if __POSIX_VISIBLE >= 200809
