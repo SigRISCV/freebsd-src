@@ -699,40 +699,40 @@ struct splice {
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-int	accept(int, struct sockaddr * __restrict, socklen_t * __restrict);
-int	bind(int, const struct sockaddr *, socklen_t);
-int	connect(int, const struct sockaddr *, socklen_t);
+__raw int	accept(int, struct sockaddr * __restrict, socklen_t * __restrict);
+__raw int	bind(int, const struct sockaddr *, socklen_t);
+__raw int	connect(int, const struct sockaddr *, socklen_t);
 #if __BSD_VISIBLE
-int	accept4(int, struct sockaddr * __restrict, socklen_t * __restrict, int);
-int	bindat(int, int, const struct sockaddr *, socklen_t);
-int	connectat(int, int, const struct sockaddr *, socklen_t);
+__raw int	accept4(int, struct sockaddr * __restrict, socklen_t * __restrict, int);
+__raw int	bindat(int, int, const struct sockaddr *, socklen_t);
+__raw int	connectat(int, int, const struct sockaddr *, socklen_t);
 #endif
-int	getpeername(int, struct sockaddr * __restrict, socklen_t * __restrict);
-int	getsockname(int, struct sockaddr * __restrict, socklen_t * __restrict);
-int	getsockopt(int, int, int, void * __restrict, socklen_t * __restrict);
-int	listen(int, int);
-ssize_t	recv(int, void *, size_t, int);
-ssize_t	recvfrom(int, void *, size_t, int, struct sockaddr * __restrict, socklen_t * __restrict);
-ssize_t	recvmsg(int, struct msghdr *, int);
+__raw int	getpeername(int, struct sockaddr * __restrict, socklen_t * __restrict);
+__raw int	getsockname(int, struct sockaddr * __restrict, socklen_t * __restrict);
+__raw int	getsockopt(int, int, int, void * __restrict, socklen_t * __restrict);
+__raw int	listen(int, int);
+__raw ssize_t	recv(int, void *, size_t, int);
+__raw ssize_t	recvfrom(int, void *, size_t, int, struct sockaddr * __restrict, socklen_t * __restrict);
+__raw ssize_t	recvmsg(int, struct msghdr *, int);
 #if __BSD_VISIBLE
 struct timespec;
-ssize_t	recvmmsg(int, struct mmsghdr * __restrict, size_t, int,
+__raw ssize_t	recvmmsg(int, struct mmsghdr * __restrict, size_t, int,
     const struct timespec * __restrict);
 #endif
-ssize_t	send(int, const void *, size_t, int);
-ssize_t	sendto(int, const void *,
+__raw ssize_t	send(int, const void *, size_t, int);
+__raw ssize_t	sendto(int, const void *,
 	    size_t, int, const struct sockaddr *, socklen_t);
-ssize_t	sendmsg(int, const struct msghdr *, int);
+__raw ssize_t	sendmsg(int, const struct msghdr *, int);
 #if __BSD_VISIBLE
-int	sendfile(int, int, off_t, size_t, struct sf_hdtr *, off_t *, int);
-ssize_t	sendmmsg(int, struct mmsghdr * __restrict, size_t, int);
-int	setfib(int);
+__raw int	sendfile(int, int, off_t, size_t, struct sf_hdtr *, off_t *, int);
+__raw ssize_t	sendmmsg(int, struct mmsghdr * __restrict, size_t, int);
+__raw int	setfib(int);
 #endif
-int	setsockopt(int, int, int, const void *, socklen_t);
-int	shutdown(int, int);
-int	sockatmark(int);
-int	socket(int, int, int);
-int	socketpair(int, int, int, int *);
+__raw int	setsockopt(int, int, int, const void *, socklen_t);
+__raw int	shutdown(int, int);
+__raw int	sockatmark(int);
+__raw int	socket(int, int, int);
+__raw int	socketpair(int, int, int, int *);
 __END_DECLS
 
 #endif /* !_KERNEL */
