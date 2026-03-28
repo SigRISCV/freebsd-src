@@ -39,6 +39,7 @@
 
 #include <sys/signal.h>
 #include <sys/ucontext.h>
+#include <sys/sigriscv_context.h>
 
 /*
  * NOTE: keep this structure in sync with struct reg and struct mcontext.
@@ -67,6 +68,7 @@ struct trapframe {
 struct sigframe {
 	siginfo_t	sf_si;	/* actual saved siginfo */
 	ucontext_t	sf_uc;	/* actual saved ucontext */
+	sigriscv_context_t sf_sc;
 };
 
 #ifdef _KERNEL
