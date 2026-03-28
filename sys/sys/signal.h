@@ -135,11 +135,11 @@ typedef	__uid_t		uid_t;
 #define	SIGRTMIN	65
 #define	SIGRTMAX	126
 
-#define	SIG_DFL		((__sighandler_t *)0)
-#define	SIG_IGN		((__sighandler_t *)1)
-#define	SIG_ERR		((__sighandler_t *)-1)
+#define	SIG_DFL		((__raw __sighandler_t *)0)
+#define	SIG_IGN		((__raw __sighandler_t *)1)
+#define	SIG_ERR		((__raw __sighandler_t *)-1)
 /* #define	SIG_CATCH	((__sighandler_t *)2) See signalvar.h */
-#define SIG_HOLD        ((__sighandler_t *)3)
+#define SIG_HOLD        ((__raw __sighandler_t *)3)
 
 /*
  * Type of a signal handling function.
@@ -475,7 +475,7 @@ struct sigstack {
  * defined by <sys/signal.h>.
  */
 __BEGIN_DECLS
-__sighandler_t *signal(int, __sighandler_t *);
+__sighandler_t * __raw signal(int, __sighandler_t *);
 __END_DECLS
 
 #endif /* !_SYS_SIGNAL_H_ */
