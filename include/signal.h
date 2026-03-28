@@ -114,7 +114,7 @@ __raw int	sighold(int);
 __raw int	sigignore(int);
 __raw int	sigpause(int);
 __raw int	sigrelse(int);
-void	(* _Nullable sigset(int, void (* _Nullable)(int)))(int);
+void	(* __raw _Nullable sigset(int, void (* _Nullable)(int)))(int);
 __raw int	xsi_sigpause(int);
 #endif
 
