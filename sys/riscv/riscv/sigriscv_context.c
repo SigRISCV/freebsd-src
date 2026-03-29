@@ -79,6 +79,7 @@ void maybe_set_sig_enable(sigriscv_context_t *sc){
     uint32_t upse = sc->idcsr & (IDCSR_UPSE);
     if(upse){
         uint32_t idcsr_new = sc->idcsr | (IDCSR_USE);
+        idcsr_new = idcsr_new & (~IDCSR_UPSE);
         csr_write(CSR_IDCSR, (unsigned long)idcsr_new);
     }
 }
