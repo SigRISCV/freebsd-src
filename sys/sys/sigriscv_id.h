@@ -2,6 +2,7 @@
 #define	_SYS_SIGRISCV_ID_H_
 
 #include <sys/types.h>
+#include <sys/sigriscv_context.h>
 
 struct thread;
 struct proc;

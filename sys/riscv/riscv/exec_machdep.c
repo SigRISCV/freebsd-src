@@ -53,6 +53,7 @@
 #include <sys/sysent.h>
 #include <sys/sysproto.h>
 #include <sys/ucontext.h>
+#include <sys/sigriscv_context.h>
 
 #include <machine/cpu.h>
 #include <machine/fpe.h>
@@ -322,10 +323,21 @@ sys_sigreturn(struct thread *td, struct sigreturn_args *uap)
 
 	if (copyin(uap->sigcntxp, &uc, sizeof(uc)))
 		return (EFAULT);
+#ifdef SIGRISCV
+	sigriscv_context_t sc;
+	if (copyin((const char *)uap->sigcntxp + sizeof(uc), &sc, sizeof(sc)))
+		return (EFAULT);
+#endif
 
 	error = set_mcontext(td, &uc.uc_mcontext);
 	if (error != 0)
 		return (error);
+
+#ifdef SIGRISCV
+	error = set_sigriscv_context(&sc);
+	if (error != 0)
+		return (error);
+#endif
 
 	/* Restore signal mask. */
 	kern_sigprocmask(td, SIG_SETMASK, &uc.uc_sigmask, NULL, 0);
@@ -380,6 +392,9 @@ sendsig(sig_t catcher, ksiginfo_t *ksi, sigset_t *mask)
 	frame.sf_uc.uc_stack = td->td_sigstk;
 	frame.sf_uc.uc_stack.ss_flags = (td->td_pflags & TDP_ALTSTACK) != 0 ?
 	    (onstack ? SS_ONSTACK : 0) : SS_DISABLE;
+#ifdef SIGRISCV
+	get_sigriscv_context(&frame.sf_sc);
+#endif
 	mtx_unlock(&psp->ps_mtx);
 	PROC_UNLOCK(td->td_proc);
 
@@ -404,6 +419,10 @@ sendsig(sig_t catcher, ksiginfo_t *ksi, sigset_t *mask)
 	else
 		tf->tf_ra = (register_t)(PROC_PS_STRINGS(p) -
 		    *(sysent->sv_szsigcode));
+
+#ifdef SIGRISCV
+	maybe_set_sig_enable(&frame.sf_sc);
+#endif
 
 	CTR3(KTR_SIG, "sendsig: return td=%p pc=%#x sp=%#x", td, tf->tf_sepc,
 	    tf->tf_sp);
