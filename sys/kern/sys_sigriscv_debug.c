@@ -12,6 +12,7 @@ __FBSDID("$FreeBSD$");
 #include <sys/sigriscv_key.h>
 #ifdef SIGRISCV
 #include <machine/riscvreg.h>
+#include <sys/sigriscv_context.h>
 #endif
 
 #include <sys/sysproto.h>
@@ -48,10 +49,10 @@ sys_sigriscv_debug_info(struct thread *td, struct sigriscv_debug_info_args *uap)
 	// Provide both PCB (saved user-space state) and CSR (current kernel state) values.
 	
 	for (int i = 0; i < 32; i++) {
-		info.gpr_id[i] = p->p_gpr_id[i];
+		info.gpr_id[i] = p->p_sigriscv_context.gpr_id[i];
 	}
-	info.pc_id = p->p_pc_id;
-	info.idcsr = p->p_idcsr;
+	info.pc_id = p->p_sigriscv_context.pc_id;
+	info.idcsr = p->p_sigriscv_context.idcsr;
 	
 	// Read from CSRs
 	info.gpr_id_csr[0] = csr_read(0x5d0);
