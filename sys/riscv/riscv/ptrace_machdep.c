@@ -35,6 +35,7 @@
 
 #include <sys/param.h>
 #include <sys/systm.h>
+#include <sys/elf.h>
 #include <sys/exec.h>
 #include <sys/imgact.h>
 #include <sys/kdb.h>
@@ -53,6 +54,7 @@
 #include <sys/sysent.h>
 #include <sys/sysproto.h>
 #include <sys/ucontext.h>
+#include <sys/sigriscv_context.h>
 
 #include <machine/cpu.h>
 #include <machine/pcb.h>
@@ -60,6 +62,49 @@
 #include <machine/riscvreg.h>
 #include <machine/sbi.h>
 #include <machine/trap.h>
+
+#ifdef SIGRISCV
+static bool
+get_riscv_sigriscv(struct regset *rs, struct thread *td, void *buf,
+    size_t *sizep)
+{
+	sigriscv_context_t sc;
+
+	if (buf != NULL) {
+		KASSERT(*sizep == sizeof(sc), ("%s: invalid size", __func__));
+		sc = td->td_proc->p_sigriscv_context;
+		if (td == curthread) {
+			get_sigriscv_context(&sc);
+			td->td_proc->p_sigriscv_context = sc;
+		}
+		memcpy(buf, &sc, sizeof(sc));
+	}
+	*sizep = sizeof(sc);
+	return (true);
+}
+
+static bool
+set_riscv_sigriscv(struct regset *rs, struct thread *td, void *buf,
+    size_t size)
+{
+	sigriscv_context_t *sc;
+
+	KASSERT(size == sizeof(*sc), ("%s: invalid size", __func__));
+	sc = buf;
+	td->td_proc->p_sigriscv_context = *sc;
+	if (td == curthread)
+		return (set_sigriscv_context(&td->td_proc->p_sigriscv_context) == 0);
+	return (true);
+}
+
+static struct regset regset_riscv_sigriscv = {
+	.note = NT_RISCV_SIGRISCV,
+	.size = sizeof(sigriscv_context_t),
+	.get = get_riscv_sigriscv,
+	.set = set_riscv_sigriscv,
+};
+ELF_REGSET(regset_riscv_sigriscv);
+#endif
 
 int
 ptrace_set_pc(struct thread *td, u_long addr)
@@ -84,4 +129,3 @@ ptrace_clear_single_step(struct thread *td)
 	/* TODO; */
 	return (EOPNOTSUPP);
 }
-
