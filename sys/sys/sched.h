@@ -81,42 +81,42 @@ struct thread;
  * sched_runnable:
  *	Runnable threads for this processor.
  */
-int	sched_load(void);
-int	sched_rr_interval(void);
-bool	sched_runnable(void);
+__raw int	sched_load(void);
+__raw int	sched_rr_interval(void);
+__raw bool	sched_runnable(void);
 
 /* 
  * Proc related scheduling hooks.
  */
-void	sched_exit(struct proc *p, struct thread *childtd);
-void	sched_fork(struct thread *td, struct thread *childtd);
-void	sched_fork_exit(struct thread *td);
-void	sched_class(struct thread *td, int class);
-void	sched_nice(struct proc *p, int nice);
+__raw void	sched_exit(struct proc *p, struct thread *childtd);
+__raw void	sched_fork(struct thread *td, struct thread *childtd);
+__raw void	sched_fork_exit(struct thread *td);
+__raw void	sched_class(struct thread *td, int class);
+__raw void	sched_nice(struct proc *p, int nice);
 
 /*
  * Threads are switched in and out, block on resources, have temporary
  * priorities inherited from their procs, and use up cpu time.
  */
-void	sched_ap_entry(void);
-void	sched_exit_thread(struct thread *td, struct thread *child);
-u_int	sched_estcpu(struct thread *td);
-void	sched_fork_thread(struct thread *td, struct thread *child);
-void	sched_ithread_prio(struct thread *td, u_char prio);
-void	sched_lend_prio(struct thread *td, u_char prio);
-void	sched_lend_user_prio(struct thread *td, u_char pri);
-void	sched_lend_user_prio_cond(struct thread *td, u_char pri);
-fixpt_t	sched_pctcpu(struct thread *td);
-void	sched_prio(struct thread *td, u_char prio);
-void	sched_sleep(struct thread *td, int prio);
-void	sched_switch(struct thread *td, int flags);
-void	sched_throw(struct thread *td);
-void	sched_unlend_prio(struct thread *td, u_char prio);
-void	sched_user_prio(struct thread *td, u_char prio);
-void	sched_userret_slowpath(struct thread *td);
+__raw void	sched_ap_entry(void);
+__raw void	sched_exit_thread(struct thread *td, struct thread *child);
+__raw u_int	sched_estcpu(struct thread *td);
+__raw void	sched_fork_thread(struct thread *td, struct thread *child);
+__raw void	sched_ithread_prio(struct thread *td, u_char prio);
+__raw void	sched_lend_prio(struct thread *td, u_char prio);
+__raw void	sched_lend_user_prio(struct thread *td, u_char pri);
+__raw void	sched_lend_user_prio_cond(struct thread *td, u_char pri);
+__raw fixpt_t	sched_pctcpu(struct thread *td);
+__raw void	sched_prio(struct thread *td, u_char prio);
+__raw void	sched_sleep(struct thread *td, int prio);
+__raw void	sched_switch(struct thread *td, int flags);
+__raw void	sched_throw(struct thread *td);
+__raw void	sched_unlend_prio(struct thread *td, u_char prio);
+__raw void	sched_user_prio(struct thread *td, u_char prio);
+__raw void	sched_userret_slowpath(struct thread *td);
 #ifdef	RACCT
 #ifdef	SCHED_4BSD
-fixpt_t	sched_pctcpu_delta(struct thread *td);
+__raw fixpt_t	sched_pctcpu_delta(struct thread *td);
 #endif
 #endif
 
@@ -142,40 +142,40 @@ sched_userret(struct thread *td)
 /*
  * Threads are moved on and off of run queues
  */
-void	sched_add(struct thread *td, int flags);
-struct thread *sched_choose(void);
-void	sched_clock(struct thread *td, int cnt);
-void	sched_idletd(void *);
-void	sched_preempt(struct thread *td);
-void	sched_relinquish(struct thread *td);
-void	sched_rem(struct thread *td);
-void	sched_wakeup(struct thread *td, int srqflags);
+__raw void	sched_add(struct thread *td, int flags);
+struct thread * __raw sched_choose(void);
+__raw void	sched_clock(struct thread *td, int cnt);
+__raw void	sched_idletd(void *);
+__raw void	sched_preempt(struct thread *td);
+__raw void	sched_relinquish(struct thread *td);
+__raw void	sched_rem(struct thread *td);
+__raw void	sched_wakeup(struct thread *td, int srqflags);
 
 /*
  * Binding makes cpu affinity permanent while pinning is used to temporarily
  * hold a thread on a particular CPU.
  */
-void	sched_bind(struct thread *td, int cpu);
+__raw void	sched_bind(struct thread *td, int cpu);
 static __inline void sched_pin(void);
-void	sched_unbind(struct thread *td);
+__raw void	sched_unbind(struct thread *td);
 static __inline void sched_unpin(void);
-int	sched_is_bound(struct thread *td);
-void	sched_affinity(struct thread *td);
+__raw int	sched_is_bound(struct thread *td);
+__raw void	sched_affinity(struct thread *td);
 
 /*
  * These procedures tell the process data structure allocation code how
  * many bytes to actually allocate.
  */
-int	sched_sizeof_proc(void);
-int	sched_sizeof_thread(void);
+__raw int	sched_sizeof_proc(void);
+__raw int	sched_sizeof_thread(void);
 
 /*
  * This routine provides a consistent thread name for use with KTR graphing
  * functions.
  */
-char	*sched_tdname(struct thread *td);
+char	* __raw sched_tdname(struct thread *td);
 #ifdef KTR
-void	sched_clear_tdname(struct thread *td);
+__raw void	sched_clear_tdname(struct thread *td);
 #endif
 
 static __inline void
@@ -235,12 +235,12 @@ SYSINIT(name, SI_SUB_LAST, SI_ORDER_MIDDLE, name ## _add_proc, NULL);
 /*
  * Fixup scheduler state for proc0 and thread0
  */
-void schedinit(void);
+__raw void schedinit(void);
 
 /*
  * Fixup scheduler state for secondary APs
  */
-void schedinit_ap(void);
+__raw void schedinit_ap(void);
 #endif /* _KERNEL */
 
 /* POSIX 1003.1b Process Scheduling */
@@ -270,14 +270,14 @@ typedef __pid_t         pid_t;
 #endif
 
 __BEGIN_DECLS
-int     sched_get_priority_max(int);
-int     sched_get_priority_min(int);
-int     sched_getparam(pid_t, struct sched_param *);
-int     sched_getscheduler(pid_t);
-int     sched_rr_get_interval(pid_t, struct timespec *);
-int     sched_setparam(pid_t, const struct sched_param *);
-int     sched_setscheduler(pid_t, int, const struct sched_param *);
-int     sched_yield(void);
+__raw int     sched_get_priority_max(int);
+__raw int     sched_get_priority_min(int);
+__raw int     sched_getparam(pid_t, struct sched_param *);
+__raw int     sched_getscheduler(pid_t);
+__raw int     sched_rr_get_interval(pid_t, struct timespec *);
+__raw int     sched_setparam(pid_t, const struct sched_param *);
+__raw int     sched_setscheduler(pid_t, int, const struct sched_param *);
+__raw int     sched_yield(void);
 __END_DECLS
 
 #endif

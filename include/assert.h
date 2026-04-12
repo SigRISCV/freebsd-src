@@ -78,7 +78,7 @@
 #endif
 
 __BEGIN_DECLS
-void __assert(const char *, const char *, int, const char *) __dead2;
+__raw void __assert(const char *, const char *, int, const char *) __dead2;
 __END_DECLS
 
 #endif /* !_ASSERT_H_ */

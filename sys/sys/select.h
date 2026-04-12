@@ -121,12 +121,12 @@ __fdset_idx(const fd_set *p, unsigned long idx)
 #ifndef _KERNEL
 
 __BEGIN_DECLS
-int pselect(int, fd_set *__restrict, fd_set *__restrict, fd_set *__restrict,
+__raw int pselect(int, fd_set *__restrict, fd_set *__restrict, fd_set *__restrict,
 	const struct timespec *__restrict, const sigset_t *__restrict);
 #ifndef _SELECT_DECLARED
 #define	_SELECT_DECLARED
 /* XXX missing restrict type-qualifier */
-int	select(int, fd_set *, fd_set *, fd_set *, struct timeval *);
+__raw int	select(int, fd_set *, fd_set *, fd_set *, struct timeval *);
 #endif
 __END_DECLS
 #endif /* !_KERNEL */

@@ -11,9 +11,9 @@
 
 #include <contrib/xen/version.h>
 
-extern void setup_xen_features(void);
+extern __raw void setup_xen_features(void);
 
-extern uint8_t xen_features[XENFEAT_NR_SUBMAPS * 32];
+extern __raw uint8_t xen_features[XENFEAT_NR_SUBMAPS * 32];
 
 #define xen_feature(flag)	(xen_features[flag])
 

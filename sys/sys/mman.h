@@ -302,19 +302,19 @@ struct shmfd {
 #ifdef _KERNEL
 struct prison;
 
-int	shm_map(struct file *fp, size_t size, off_t offset, void **memp);
-int	shm_unmap(struct file *fp, void *mem, size_t size);
+__raw int	shm_map(struct file *fp, size_t size, off_t offset, void **memp);
+__raw int	shm_unmap(struct file *fp, void *mem, size_t size);
 
-int	shm_access(struct shmfd *shmfd, struct ucred *ucred, int flags);
-struct shmfd *shm_alloc(struct ucred *ucred, mode_t mode, bool largepage);
-struct shmfd *shm_hold(struct shmfd *shmfd);
-void	shm_drop(struct shmfd *shmfd);
-int	shm_dotruncate(struct shmfd *shmfd, off_t length);
-bool	shm_largepage(struct shmfd *shmfd);
-void	shm_remove_prison(struct prison *pr);
-int	shm_get_path(struct vm_object *obj, char *path, size_t sz);
+__raw int	shm_access(struct shmfd *shmfd, struct ucred *ucred, int flags);
+struct shmfd * __raw shm_alloc(struct ucred *ucred, mode_t mode, bool largepage);
+struct shmfd * __raw shm_hold(struct shmfd *shmfd);
+__raw void	shm_drop(struct shmfd *shmfd);
+__raw int	shm_dotruncate(struct shmfd *shmfd, off_t length);
+__raw bool	shm_largepage(struct shmfd *shmfd);
+__raw void	shm_remove_prison(struct prison *pr);
+__raw int	shm_get_path(struct vm_object *obj, char *path, size_t sz);
 
-extern const struct fileops shm_ops;
+extern __raw const struct fileops shm_ops;
 
 #define	MAP_32BIT_MAX_ADDR	((vm_offset_t)1 << 31)
 
