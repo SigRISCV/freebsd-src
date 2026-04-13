@@ -137,6 +137,7 @@ static Obj_Entry *load_object(const char *, int fd, const Obj_Entry *, int);
 static void map_stacks_exec(RtldLockState *);
 static int obj_disable_relro(Obj_Entry *);
 static int obj_enforce_relro(Obj_Entry *);
+static int obj_remap_rodata(Obj_Entry *, int);
 static void objlist_call_fini(Objlist *, Obj_Entry *, RtldLockState *);
 static void objlist_call_init(Objlist *, RtldLockState *);
 static void objlist_clear(Objlist *);
@@ -1062,9 +1063,18 @@ _rtld(Elf_Addr *sp, func_ptr_type *exit_proc, Obj_Entry **objp)
 	    obj_main->sig_mode, obj_main->sig_header_addr, obj_main->path);
 	if (obj_main->sig_mode && obj_main->sig_header_addr != NULL) {
 		void *raw_sig_got_pool = NULL;  // Temporary, freed by global_init
+
+		if (obj_remap_rodata(obj_main, PROT_READ | PROT_WRITE) == -1) {
+			dbg("WARNING: mprotect rodata failed\n");
+		}
+
 		dbg("Initializing SigRISCV global pointers");
 		global_init((sig_header *)obj_main->sig_header_addr);
 		dbg("SigRISCV initialization completed");
+
+		if (obj_remap_rodata(obj_main, PROT_READ) == -1) {
+			dbg("WARNING: mprotect rodata failed\n");
+		}
 	}
 
 	/* Return the exit procedure and the program entry point. */
@@ -6204,6 +6214,30 @@ obj_remap_relro(Obj_Entry *obj, int prot)
 			return (-1);
 		}
 		break;
+	}
+	return (0);
+}
+
+static int
+obj_remap_rodata(Obj_Entry *obj, int prot)
+{
+	const Elf_Phdr *ph;
+	caddr_t rodata_page;
+	size_t rodata_size;
+
+	for (ph = obj->phdr; (const char *)ph < (const char *)obj->phdr +
+	    obj->phsize; ph++) {
+		if (ph->p_type != PT_LOAD || (ph->p_flags & PF_R) == 0 ||
+		    (ph->p_flags & (PF_W | PF_X)) != 0)
+			continue;
+		rodata_page = obj->relocbase + rtld_trunc_page(ph->p_vaddr);
+		rodata_size = rtld_round_page(ph->p_vaddr + ph->p_memsz) -
+		    rtld_trunc_page(ph->p_vaddr);
+		if (mprotect(rodata_page, rodata_size, prot) == -1) {
+			_rtld_error("%s: Cannot set rodata protection to %#x: %s",
+			    obj->path, prot, rtld_strerror(errno));
+			return (-1);
+		}
 	}
 	return (0);
 }

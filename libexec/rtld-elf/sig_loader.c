@@ -231,7 +231,7 @@ inline static void init_one_global_ptr(uint64_t addr, uint32_t data_id,
         debug_str("\n");
     );
 }
-
+    
 static void init_sig_ptr_single(__raw sig_ptr_header_single_entry* sig_ptr_header_single,
                                 uint32_t sig_ptr_header_single_count, void** sig_got_pool) {
     SIG_DEBUG(
