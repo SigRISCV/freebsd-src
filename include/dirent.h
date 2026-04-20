@@ -101,58 +101,57 @@ typedef	void *	DIR;
 
 __BEGIN_DECLS
 #if __POSIX_VISIBLE >= 200809 || __XSI_VISIBLE >= 700
-int	 alphasort(const struct dirent **, const struct dirent **);
-int	 dirfd(DIR *);
+__raw int	 alphasort(const struct dirent **, const struct dirent **);
+__raw int	 dirfd(DIR *);
 #endif
 #if __BSD_VISIBLE
-int	 versionsort(const struct dirent **, const struct dirent **);
-DIR	*__opendir2(const char *, int);
-int	 fdclosedir(DIR *);
-ssize_t	 getdents(int, char *, size_t);
-ssize_t	 getdirentries(int, char *, size_t, off_t *);
+__raw int	 versionsort(const struct dirent **, const struct dirent **);
+DIR	* __raw __opendir2(const char *, int);
+__raw int	fdclosedir(DIR *);
+__raw ssize_t	 getdents(int, char *, size_t);
+__raw ssize_t	 getdirentries(int, char *, size_t, off_t *);
 #endif
-DIR	*opendir(const char *);
-DIR	*fdopendir(int);
-struct dirent *
-	 readdir(DIR *);
+DIR	* __raw opendir(const char *);
+DIR	* __raw fdopendir(int);
+struct dirent * __raw readdir(DIR *);
 #if __POSIX_VISIBLE >= 199506 || __XSI_VISIBLE >= 500
-int	 readdir_r(DIR *, struct dirent *, struct dirent **)
+__raw int	 readdir_r(DIR *, struct dirent *, struct dirent **)
 	__deprecated1("Does not take variable {NAME_MAX} into account");
 #endif
-void	 rewinddir(DIR *);
+__raw void	 rewinddir(DIR *);
 #if __POSIX_VISIBLE >= 200809 || __XSI_VISIBLE >= 700
-int	 scandir(const char *, struct dirent ***,
+__raw int	 scandir(const char *, struct dirent ***,
 	    int (*)(const struct dirent *), int (*)(const struct dirent **,
 	    const struct dirent **));
 #ifdef __BLOCKS__
-int	 scandir_b(const char *, struct dirent ***,
+__raw int	 scandir_b(const char *, struct dirent ***,
 	    int (^)(const struct dirent *),
 	    int (^)(const struct dirent **, const struct dirent **));
 #endif
 #endif
 #if __BSD_VISIBLE
-int	 fdscandir(int, struct dirent ***,
+__raw int	 fdscandir(int, struct dirent ***,
 	    int (*)(const struct dirent *), int (*)(const struct dirent **,
 	    const struct dirent **));
 #ifdef __BLOCKS__
-int	 fdscandir_b(int, struct dirent ***,
+__raw int	 fdscandir_b(int, struct dirent ***,
 	    int (^)(const struct dirent *),
 	    int (^)(const struct dirent **, const struct dirent **));
 #endif
-int	 scandirat(int, const char *, struct dirent ***,
+__raw int	 scandirat(int, const char *, struct dirent ***,
 	    int (*)(const struct dirent *), int (*)(const struct dirent **,
 	    const struct dirent **));
 #ifdef __BLOCKS__
-int	 scandirat_b(int, const char *, struct dirent ***,
+__raw int	 scandirat_b(int, const char *, struct dirent ***,
 	    int (^)(const struct dirent *),
 	    int (^)(const struct dirent **, const struct dirent **));
 #endif
 #endif
 #if __XSI_VISIBLE
-void	 seekdir(DIR *, long);
-long	 telldir(DIR *);
+__raw void	 seekdir(DIR *, long);
+__raw long	 telldir(DIR *);
 #endif
-int	 closedir(DIR *);
+__raw int	 closedir(DIR *);
 __END_DECLS
 
 #endif /* !_KERNEL */

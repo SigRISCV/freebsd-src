@@ -84,7 +84,7 @@
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-int	ioctl(int, unsigned long, ...);
+__raw int	ioctl(int, unsigned long, ...);
 __END_DECLS
 
 #endif

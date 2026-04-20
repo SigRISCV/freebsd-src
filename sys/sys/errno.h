@@ -40,7 +40,7 @@
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <sys/cdefs.h>
 __BEGIN_DECLS
-int *	__error(void);
+int *	__raw __error(void);
 __END_DECLS
 #define	errno		(* __error())
 #endif
