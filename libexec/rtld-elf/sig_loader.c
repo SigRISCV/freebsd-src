@@ -67,7 +67,7 @@ static void free_sig_got_pool(void** sig_got_pool, uint64_t sig_ptr_id_count) {
 }
 
 static void init_got_array_first_stage(void* __raw * raw_got_array, uint64_t got_count, void** got_page_start_out, size_t* got_page_size_out) {
-    void** pc;
+    // void** pc;
     size_t got_size, got_page_size;
     void* got_page_start;
 
@@ -87,58 +87,58 @@ static void init_got_array_first_stage(void* __raw * raw_got_array, uint64_t got
         );
     }
 
-    /* Get PC ID */
-    __asm__ __volatile__ (
-        "auipc %0, 0\n"
-        : "=r"(pc)
-    );
-    void** got_array = (void**)xsig_moveid(raw_got_array, pc);
+    // /* Get PC ID */
+    // __asm__ __volatile__ (
+    //     "auipc %0, 0\n"
+    //     : "=r"(pc)
+    // );
+    // void** got_array = (void**)xsig_moveid(raw_got_array, pc);
 
-    for (uint64_t i = 1; i < got_count; i++) {
-        got_array[i] = (void*)0 + (uint64_t)(raw_got_array[i]);
-        SIG_DEBUG(
-            debug_int(i);
-            debug_chr(' ');
-            debug_ptr(got_array[i]);
-            debug_chr('\n');
-        );
-    }
-    pc = 0;
-    got_array = 0;
+    // for (uint64_t i = 1; i < got_count; i++) {
+    //     got_array[i] = (void*)0 + (uint64_t)(raw_got_array[i]);
+    //     SIG_DEBUG(
+    //         debug_int(i);
+    //         debug_chr(' ');
+    //         debug_ptr(got_array[i]);
+    //         debug_chr('\n');
+    //     );
+    // }
+    // pc = 0;
+    // got_array = 0;
 }
 
-static void init_got_array_dummy(void* __raw * raw_got_array, uint64_t got_count, void** sig_got_pool) {
-    SIG_DEBUG(
-        debug_str("begin init_got_array_dummy, counter = ");
-        debug_int(0);
-        debug_str("\n");
-    );
+// static void init_got_array_dummy(void* __raw * raw_got_array, uint64_t got_count, void** sig_got_pool) {
+//     SIG_DEBUG(
+//         debug_str("begin init_got_array_dummy, counter = ");
+//         debug_int(0);
+//         debug_str("\n");
+//     );
 
-    void** pc;
-    __asm__ __volatile__ (
-        "auipc %0, 0\n"
-        : "=r"(pc)
-    );
-    void** got_array = (void**)xsig_moveid(raw_got_array, pc);
-    SIG_DEBUG(
-        debug_str("init got_array: ");
-        debug_ptr(got_array);
-        debug_str("\n");
-    );
+//     void** pc;
+//     __asm__ __volatile__ (
+//         "auipc %0, 0\n"
+//         : "=r"(pc)
+//     );
+//     void** got_array = (void**)xsig_moveid(raw_got_array, pc);
+//     SIG_DEBUG(
+//         debug_str("init got_array: ");
+//         debug_ptr(got_array);
+//         debug_str("\n");
+//     );
 
-    for (uint64_t i = 1; i < got_count; i++) {
-        got_array[i] = sig_got_pool[0] + (uint64_t)(got_array[i]);
-        SIG_DEBUG(
-            debug_str("init got_array entry ");
-            debug_int(i);
-            debug_str(": ");
-            debug_ptr(got_array[i]);
-            debug_str("\n");
-        );
-    }
-    pc = 0;
-    got_array = 0;
-}
+//     for (uint64_t i = 1; i < got_count; i++) {
+//         got_array[i] = sig_got_pool[0] + (uint64_t)(got_array[i]);
+//         SIG_DEBUG(
+//             debug_str("init got_array entry ");
+//             debug_int(i);
+//             debug_str(": ");
+//             debug_ptr(got_array[i]);
+//             debug_str("\n");
+//         );
+//     }
+//     pc = 0;
+//     got_array = 0;
+// }
 
 static void init_got_array(void* __raw * raw_got_array, uint64_t got_count,
                            __raw sig_got_table_entry* sig_got_table,
@@ -154,7 +154,7 @@ static void init_got_array(void* __raw * raw_got_array, uint64_t got_count,
         "auipc %0, 0\n"
         : "=r"(pc)
     );
-    void** got_array = (void**)xsig_moveid(raw_got_array, pc);
+    void** got_array = (void**)((void*)pc - (uint64_t)xsig_setrawid(pc) + (uint64_t)raw_got_array);
     SIG_DEBUG(
         debug_str("init got_array: ");
         debug_ptr(got_array);
@@ -183,7 +183,7 @@ static void init_got_array(void* __raw * raw_got_array, uint64_t got_count,
                 debug_str("\n");
             );
             // Use sig_got_table entry
-            got_array[i] = sig_got_pool[pointee_id] + (uint64_t)(got_array[i]);
+            got_array[i] = sig_got_pool[pointee_id] + (uint64_t)(raw_got_array[i]);
             sig_got_table_index++;
             if (sig_got_table_index < sig_got_count) {
                 pointee_id = sig_got_table[sig_got_table_index].pointee_id;
@@ -192,18 +192,15 @@ static void init_got_array(void* __raw * raw_got_array, uint64_t got_count,
                 pointee_id = 0;
                 got_offset = 0;
             }
-        } else {
-            got_array[i] = sig_got_pool[0] + (uint64_t)(got_array[i]);
+            SIG_DEBUG(
+                debug_str("init got_array entry ");
+                debug_int(i);
+                debug_str(": ");
+                debug_ptr(got_array[i]);
+                debug_str("\n");
+            );
         }
     }
-
-    SIG_DEBUG(
-        debug_str("init got_array entry ");
-        debug_int(i);
-        debug_str(": ");
-        debug_ptr(got_array[i]);
-        debug_str("\n");
-    );
     pc = 0;
     got_array = 0;
 }
@@ -400,14 +397,12 @@ void global_init(__raw sig_header* sig_header_struct) {
 
     void* __raw * got_section = (void* __raw *)getsection(sig_header_struct, got);
     init_got_array_first_stage(got_section, sig_header_struct->got_count, &got_page_start, &got_page_size);
-
+    
     void** sig_got_pool = init_sig_got_pool(sig_header_struct->sig_ptr_id_count);
     if (sig_got_pool == NULL) return;
 
     sig_got_section = (__raw sig_got_table_entry*)getsection(sig_header_struct, sig_got);
-    if (sig_header_struct->sig_got_count == 0) {
-        init_got_array_dummy(got_section, sig_header_struct->got_count, sig_got_pool);
-    } else {
+    if (sig_header_struct->sig_got_count != 0) {
         init_got_array(got_section, sig_header_struct->got_count, sig_got_section,
                        sig_header_struct->sig_got_count, sig_got_pool);
     }
