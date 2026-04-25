@@ -1049,15 +1049,6 @@ _rtld(Elf_Addr *sp, func_ptr_type *exit_proc, Obj_Entry **objp)
 			load_filtees(obj, 0, &lockstate);
 	}
 
-	dbg("enforcing main obj relro");
-	if (obj_enforce_relro(obj_main) == -1)
-		rtld_die();
-
-	lock_release(rtld_bind_lock, &lockstate);
-
-	dbg("transferring control to program entry point = %p",
-	    obj_main->entry);
-
 	// SigRISCV: Initialize global pointers for sig mode programs
 	dbg("SigRISCV: sig_mode=%d, sig_header_addr=%p for %s",
 	    obj_main->sig_mode, obj_main->sig_header_addr, obj_main->path);
@@ -1076,6 +1067,15 @@ _rtld(Elf_Addr *sp, func_ptr_type *exit_proc, Obj_Entry **objp)
 			dbg("WARNING: mprotect rodata failed\n");
 		}
 	}
+
+	dbg("enforcing main obj relro");
+	if (obj_enforce_relro(obj_main) == -1)
+		rtld_die();
+
+	lock_release(rtld_bind_lock, &lockstate);
+
+	dbg("transferring control to program entry point = %p",
+	    obj_main->entry);
 
 	/* Return the exit procedure and the program entry point. */
 	*exit_proc = rtld_exit_ptr;
